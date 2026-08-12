@@ -1,1737 +1,385 @@
 <!DOCTYPE html>
-<html
-lang="es">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jeeves — Propuesta · Contex</title>
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --black:   #0A0A0C;
-      --black-2: #111116;
-      --black-3: #18181F;
-      --black-4: #22222B;
-      --gold:        #C9A84C;
-      --gold-light:  #E2C97E;
-      --gold-dim:    rgba(201,168,76,0.10);
-      --gold-border: rgba(201,168,76,0.22);
-      --pacific:        #51ACBC;
-      --pacific-dim:    rgba(81,172,188,0.10);
-      --pacific-border: rgba(81,172,188,0.22);
-      --green:     #4ABCA0;
-      --green-dim: rgba(74,188,160,0.10);
-      --amber:     #D4914A;
-      --amber-dim: rgba(212,145,74,0.10);
-      --red:       #E05555;
-      --text-primary:   #F0EDE6;
-      --text-secondary: #9A9690;
-      --text-muted:     #5A5755;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Urbanist', -apple-system, sans-serif;
-      background: var(--black);
-      color: var(--text-primary);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jeeves × Constructora Contex — Propuesta Enterprise</title>
+<style>
+  :root{
+    --bg:#0B0B0E; --bg-card:#141418; --bg-card-2:#17171C;
+    --green:#00D68F; --gold:#C9A84C; --text:#F5F5F7; --text-dim:#9C9CA6; --border:#26262E;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter Tight','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5;}
+  a{color:var(--green);}
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px;}
+  section{padding:56px 0;border-bottom:1px solid var(--border);}
+  h1,h2,h3{font-family:'Inter Tight',sans-serif;font-weight:700;margin:0 0 10px;}
+  h2{font-size:26px;}
+  h2 .tag{color:var(--gold);font-size:12px;letter-spacing:2px;display:block;margin-bottom:6px;font-weight:700;text-transform:uppercase;}
+  p{color:var(--text-dim);margin:0 0 10px;}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--text-dim);}
+  .grid{display:grid;gap:16px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:1fr 1fr 1fr;}
+  @media(max-width:800px){.grid-2, .grid-3{grid-template-columns:1fr;}}
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;}
+  .accent-green{color:var(--green);} .accent-gold{color:var(--gold);}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;}
+  th{color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:1px;}
+  td{color:var(--text-dim);}
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 48px;
-      background: rgba(10,10,12,0.90);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--black-4);
-    }
-    .nav-logo { display: flex; align-items: center; gap: 12px; }
-    .nav-wordmark { font-size: 20px; font-weight: 800; letter-spacing: 0.04em; }
-    .nav-pill {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      background: var(--gold-dim); border: 1px solid var(--gold-border);
-      color: var(--gold); padding: 4px 12px; border-radius: 999px;
-    }
+  /* HERO */
+  .hero{padding:56px 0 40px;text-align:center;position:relative;}
+  .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;}
+  .jeeves-mark{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;}
+  .jeeves-mark span.dot{width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;}
+  .client-logo-badge{display:flex;align-items:center;background:#FFFFFF;border-radius:10px;padding:6px 14px;box-shadow:0 2px 10px rgba(0,0,0,0.25);}
+  .hero h1{font-size:34px;max-width:720px;margin:0 auto 14px;}
+  .hero p.lead{max-width:640px;margin:0 auto 28px;font-size:16px;}
+  .stat-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;}
+  .stat-row .pill{font-size:12.5px;}
+  .stat-row b{color:var(--green);}
 
-    /* ── REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+  /* CARD IMAGES (reales, del portafolio oficial de Jeeves) */
+  .cards-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;align-items:flex-end;}
+  .cc-photo{border-radius:16px;overflow:hidden;box-shadow:0 20px 40px -12px rgba(0,0,0,0.6);background:#000;}
+  .cc-photo img{display:block;width:100%;height:100%;object-fit:cover;}
+  .cc-world-elite{width:190px;height:245px;}
+  .cc-world-elite img{object-position:top center;}
+  .cc-corporate{width:260px;height:156px;}
+  .cc-virtual{width:230px;height:139px;}
+  .cc-proveedores{width:280px;height:115px;}
+  .cc-caption{margin-top:8px;font-size:11px;color:var(--text-dim);text-align:center;text-transform:uppercase;letter-spacing:0.5px;}
+  .cc-col{display:flex;flex-direction:column;align-items:center;}
 
-    /* ── HERO ── */
-    .hero {
-      position: relative; min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 120px 24px 80px;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: ''; position: absolute;
-      top: -100px; left: 50%; transform: translateX(-50%);
-      width: 900px; height: 900px;
-      background: radial-gradient(circle, rgba(201,168,76,0.13) 0%, transparent 58%);
-      pointer-events: none;
-    }
-    .eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--gold); background: var(--gold-dim); border: 1px solid var(--gold-border);
-      padding: 6px 18px; border-radius: 999px; margin-bottom: 28px; display: inline-block;
-    }
-    .hero h1 {
-      font-size: clamp(46px, 8vw, 92px); font-weight: 900; line-height: 0.95;
-      letter-spacing: -0.03em; margin-bottom: 24px;
-    }
-    .hero h1 em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 60%, var(--pacific) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .hero-sub {
-      font-size: clamp(15px, 2vw, 19px); color: var(--text-secondary);
-      max-width: 540px; line-height: 1.7; margin-bottom: 52px;
-    }
-    .hero-card-wrap { perspective: 1000px; margin-bottom: 52px; width: 100%; display: flex; justify-content: center; }
-    .hero-card {
-      width: min(380px, 100%); height: auto; min-height: 200px;
-      background: linear-gradient(135deg, #1c1c28 0%, #111116 100%);
-      border: 1px solid var(--gold-border);
-      border-radius: 22px; padding: 28px 32px;
-      position: relative; overflow: hidden;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.08);
-      transform: perspective(900px) rotateX(6deg) rotateY(-6deg);
-      transition: transform 0.5s ease;
-    }
-    .hero-card:hover { transform: perspective(900px) rotateX(0deg) rotateY(0deg); }
-    .hero-card::before {
-      content: ''; position: absolute; top: -80px; right: -80px;
-      width: 260px; height: 260px;
-      background: radial-gradient(circle, rgba(201,168,76,0.14) 0%, transparent 65%);
-    }
-    .hc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
-    .hc-logo { display: flex; align-items: center; gap: 8px; }
-    .hc-logo-text { font-size: 13px; font-weight: 800; letter-spacing: 0.08em; color: rgba(240,237,230,0.5); }
-    .hc-chip { width: 38px; height: 28px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); border-radius: 5px; }
-    .hc-num { font-size: 16px; font-weight: 500; letter-spacing: 0.22em; color: rgba(240,237,230,0.5); margin-bottom: 20px; }
-    .hc-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
-    .hc-name { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-primary); }
-    .hc-label-small { font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
-    .hc-tag {
-      font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      background: var(--gold-dim); border: 1px solid var(--gold-border);
-      color: var(--gold); padding: 4px 10px; border-radius: 6px;
-    }
-    .hero-stats { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-    .hstat {
-      background: var(--black-2); border: 1px solid var(--black-4);
-      border-radius: 14px; padding: 18px 26px; text-align: center;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .hstat:hover { border-color: var(--gold-border); transform: translateY(-3px); }
-    .hstat-num { font-size: 30px; font-weight: 800; color: var(--gold); line-height: 1; }
-    .hstat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-top: 5px; }
+  /* CALCULATOR */
+  .calc{background:var(--bg-card-2);border:1px solid var(--border);border-radius:20px;padding:28px;}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+  @media(max-width:800px){.calc-grid{grid-template-columns:1fr;}}
+  .field{display:flex;flex-direction:column;gap:5px;}
+  .field label{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:0.8px;}
+  .field .hint{font-size:11px;color:var(--text-dim);text-transform:none;letter-spacing:0;}
+  .field input, .field select{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:9px 11px;color:var(--text);font-size:14.5px;font-family:inherit;}
+  .field-note{font-size:11px;color:var(--text-dim);margin-top:2px;}
+  .module{border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:14px;}
+  .module-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+  .module-head .toggle{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;cursor:pointer;}
+  .module-head .toggle input{accent-color:var(--green);width:16px;height:16px;}
+  .module-note{font-size:11.5px;color:var(--text-dim);margin-bottom:10px;}
+  .savings-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:20px 0;}
+  @media(max-width:1000px){.savings-grid{grid-template-columns:repeat(2,1fr);}}
+  .save-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+  .save-card .label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+  .save-card .value{font-size:18px;font-weight:700;color:var(--green);}
+  .save-card .value.off{color:var(--text-dim);font-weight:500;font-size:14px;}
+  .totals-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;}
+  @media(max-width:800px){.totals-grid{grid-template-columns:1fr;}}
+  .total-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;}
+  .total-card .label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+  .total-card .value{font-size:22px;font-weight:700;color:var(--green);}
+  .roe-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+  @media(max-width:800px){.roe-grid{grid-template-columns:1fr;}}
+  .roe-card{background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.02));border:1px solid var(--gold);border-radius:14px;padding:20px;text-align:center;}
+  .roe-card .label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+  .roe-card .value{font-size:30px;font-weight:800;color:var(--gold);}
+  .roe-card .sub{font-size:12.5px;color:var(--text-dim);margin-top:4px;}
+  .assump{font-size:11.5px;color:var(--text-dim);margin-top:16px;}
 
-    /* ── SECTION ── */
-    .section { padding: 96px 24px; border-top: 1px solid var(--black-4); }
-    .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 8px; }
-    .section-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
-    .section-h { font-size: clamp(30px, 4.5vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 14px; }
-    .section-sub { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 520px; margin-bottom: 56px; }
+  .swap-line{font-size:13.5px;color:var(--text-dim);margin-bottom:18px;}
+  .swap-line .old{text-decoration:line-through;color:#6b6b74;}
+  .swap-line .new{color:var(--green);font-weight:700;}
 
-    /* ── SCROLL HINT ── */
-    .scroll-hint {
-      position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-muted); animation: bounce 2s infinite;
-    }
-    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
-    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
-
-    /* ── PRICING TIERS ── */
-    .tier-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-    @media(max-width:900px){ .tier-grid { grid-template-columns: repeat(2,1fr); } }
-    @media(max-width:500px){ .tier-grid { grid-template-columns: 1fr; } }
-
-    .tier-card {
-      background: var(--black-2); border: 1px solid var(--black-4);
-      border-radius: 20px; padding: 28px 24px;
-      position: relative; overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
-      cursor: default;
-    }
-    .tier-card::after {
-      content: ''; position: absolute; top: -60px; right: -60px;
-      width: 180px; height: 180px; border-radius: 50%; pointer-events: none;
-    }
-    .tier-card.t1::after { background: radial-gradient(circle, rgba(81,172,188,0.08) 0%, transparent 70%); }
-    .tier-card.t2::after { background: radial-gradient(circle, rgba(74,188,160,0.08) 0%, transparent 70%); }
-    .tier-card.t3::after { background: radial-gradient(circle, rgba(212,145,74,0.08) 0%, transparent 70%); }
-    .tier-card.t4::after { background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%); }
-    .tier-card.t4 { border-color: var(--gold-border); }
-    .tier-card.t4.active-tier { background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.03) 100%); }
-    .tier-card.active-tier { border-color: var(--gold-border); }
-
-    .tier-badge {
-      font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 3px 10px; border-radius: 999px; display: inline-block; margin-bottom: 16px;
-    }
-    .t1 .tier-badge { background: var(--pacific-dim); color: var(--pacific); border: 1px solid var(--pacific-border); }
-    .t2 .tier-badge { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,188,160,0.22); }
-    .t3 .tier-badge { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(212,145,74,0.22); }
-    .t4 .tier-badge { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
-
-    .tier-users { font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.4; }
-    .tier-price-mxn { font-size: 32px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; color: var(--text-primary); }
-    .tier-price-unit { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 4px; margin-bottom: 8px; }
-    .tier-price-usd { font-size: 13px; font-weight: 700; color: var(--text-secondary); }
-
-    .tier-ff {
-      margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--black-4);
-      font-size: 12px; color: var(--text-muted);
-    }
-    .tier-ff strong { color: var(--pacific); }
-
-    .active-tier-indicator {
-      position: absolute; top: 16px; right: 16px;
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--green); display: none;
-      box-shadow: 0 0 8px rgba(74,188,160,0.6);
-      animation: pulse 1.5s infinite;
-    }
-    .active-tier .active-tier-indicator { display: block; }
-
-    /* ── FOTO FACTURAS PACKAGES ── */
-    .ff-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
-    @media(max-width:600px){ .ff-grid { grid-template-columns: 1fr; } }
-    .ff-card {
-      background: var(--black-2); border: 1px solid var(--black-4);
-      border-radius: 16px; padding: 22px 20px;
-      transition: border-color 0.3s, transform 0.3s;
-      position: relative; cursor: pointer;
-    }
-    .ff-card:hover { border-color: var(--pacific-border); transform: translateY(-3px); }
-    .ff-card.ff-active { border-color: var(--pacific-border); background: var(--pacific-dim); }
-    .ff-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-    .ff-included { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-    .ff-price-mxn { font-size: 26px; font-weight: 900; color: var(--pacific); line-height: 1; }
-    .ff-price-detail { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
-    .ff-discount { font-size: 10px; font-weight: 700; background: rgba(74,188,160,0.1); color: var(--green); border: 1px solid rgba(74,188,160,0.2); padding: 2px 8px; border-radius: 999px; display: inline-block; margin-top: 10px; }
-
-    /* ── CALCULATOR ── */
-    .calc-wrapper {
-      background: var(--black-2); border: 1px solid var(--black-4);
-      border-radius: 24px; overflow: hidden;
-    }
-    .calc-header {
-      background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(81,172,188,0.04) 100%);
-      border-bottom: 1px solid var(--black-4);
-      padding: 28px 40px;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
-    }
-    .calc-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-    .calc-subtitle { font-size: 12px; color: var(--text-muted); }
-    .calc-subtitle span { color: var(--gold); font-weight: 700; }
-
-    .tdc-wrap {
-      display: flex; align-items: center; gap: 10px;
-      background: var(--black-3); border: 1px solid var(--gold-border);
-      border-radius: 12px; padding: 10px 16px;
-    }
-    .tdc-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; }
-    .tdc-input {
-      background: none; border: none; outline: none;
-      font-family: 'Urbanist', sans-serif; font-size: 20px; font-weight: 800;
-      color: var(--gold); width: 120px; text-align: right;
-    }
-    .tdc-suffix { font-size: 11px; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
-
-    .calc-body { display: grid; grid-template-columns: 1fr 1fr; }
-    @media(max-width:768px){ .calc-body { grid-template-columns: 1fr; } }
-
-    .calc-left { padding: 36px 40px; border-right: 1px solid var(--black-4); }
-    .calc-right { padding: 36px 40px; }
-    @media(max-width:768px){ .calc-left { border-right: none; border-bottom: 1px solid var(--black-4); } }
-
-    .calc-section-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--text-muted); margin-bottom: 24px;
-    }
-
-    .input-group { margin-bottom: 22px; }
-    .input-label {
-      font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
-      color: var(--text-secondary); display: block; margin-bottom: 8px;
-    }
-    .input-row { display: flex; align-items: center; gap: 8px; }
-    .input-prefix { font-size: 14px; color: var(--text-muted); font-weight: 600; }
-    .calc-input {
-      flex: 1; background: rgba(201,168,76,0.06); border: 1px solid var(--gold-border);
-      border-radius: 10px; padding: 12px 16px;
-      font-family: 'Urbanist', sans-serif; font-size: 16px; font-weight: 700;
-      color: var(--gold); outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .calc-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
-    .calc-input.blue { background: rgba(81,172,188,0.06); border-color: var(--pacific-border); color: var(--pacific); }
-    .calc-input.blue:focus { border-color: var(--pacific); box-shadow: 0 0 0 3px rgba(81,172,188,0.12); }
-    .input-suffix { font-size: 12px; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
-    .input-hint { font-size: 11px; color: var(--text-muted); margin-top: 6px; padding-left: 2px; }
-
-    /* Tier selector inside calc */
-    .tier-select-wrap { margin-bottom: 28px; }
-    .tier-select-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; display: block; }
-    .tier-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    @media(max-width:500px){ .tier-options { grid-template-columns: repeat(2,1fr); } }
-    .tier-opt {
-      background: var(--black-3); border: 1px solid var(--black-4);
-      border-radius: 10px; padding: 10px 8px; text-align: center;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .tier-opt:hover { border-color: var(--gold-border); }
-    .tier-opt.selected { background: var(--gold-dim); border-color: var(--gold-border); }
-    .tier-opt-label { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-    .tier-opt.selected .tier-opt-label { color: var(--gold); }
-    .tier-opt-price { font-size: 14px; font-weight: 800; color: var(--text-primary); }
-    .tier-opt.selected .tier-opt-price { color: var(--gold); }
-
-    /* Result rows */
-    .result-row {
-      background: var(--black-3); border: 1px solid var(--black-4);
-      border-radius: 12px; padding: 16px 20px; margin-bottom: 10px;
-    }
-    .result-row-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
-    .result-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
-    .result-sub { font-size: 11px; color: var(--text-muted); }
-    .result-amounts { text-align: right; }
-    .result-mxn { font-size: 18px; font-weight: 800; color: var(--gold); line-height: 1; }
-    .result-usd { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
-    .result-mxn.blue { color: var(--pacific); }
-    .result-mxn.green { color: var(--green); }
-    .result-mxn.red { color: var(--red); }
-
-    .result-total {
-      background: rgba(201,168,76,0.06); border: 1px solid var(--gold-border);
-      border-radius: 12px; padding: 18px 20px; margin-bottom: 10px;
-    }
-
-    .result-neto {
-      background: linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(74,188,160,0.06) 100%);
-      border: 1px solid var(--gold-border);
-      border-radius: 16px; padding: 24px 20px; margin-top: 16px;
-    }
-    .neto-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
-    .neto-main { font-size: 44px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
-    .neto-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-
-    .roi-bar-wrap { margin-top: 18px; }
-    .roi-bar-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
-    .roi-bar-label { font-size: 11px; color: var(--text-muted); }
-    .roi-pct { font-size: 11px; font-weight: 700; color: var(--green); }
-    .roi-track { height: 7px; background: var(--black-4); border-radius: 999px; overflow: hidden; }
-    .roi-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--green)); transition: width 0.8s cubic-bezier(0.22,1,0.36,1); width: 0%; }
-
-    /* Breakdown table */
-    .breakdown-table {
-      background: var(--black-3); border: 1px solid var(--black-4);
-      border-radius: 14px; overflow: hidden; margin-top: 28px;
-    }
-    .bt-header {
-      display: grid; grid-template-columns: 1fr 120px 120px 100px;
-      gap: 8px; padding: 12px 20px;
-      background: rgba(201,168,76,0.04); border-bottom: 1px solid var(--black-4);
-      font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
-    }
-    @media(max-width:600px){ .bt-header { display: none; } }
-    .bt-row {
-      display: grid; grid-template-columns: 1fr 120px 120px 100px;
-      gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--black-4);
-      font-size: 13px; align-items: center;
-      transition: background 0.2s;
-    }
-    @media(max-width:600px){ .bt-row { grid-template-columns: 1fr 1fr; } }
-    .bt-row:last-child { border-bottom: none; }
-    .bt-row:hover { background: rgba(201,168,76,0.03); }
-    .bt-name { font-weight: 600; }
-    .bt-val { font-weight: 700; text-align: right; }
-    .bt-val.gold { color: var(--gold); }
-    .bt-val.blue { color: var(--pacific); }
-    .bt-val.muted { color: var(--text-muted); font-weight: 500; }
-    .bt-row.bt-total {
-      background: rgba(201,168,76,0.05); border-top: 1px solid var(--gold-border);
-      font-size: 14px;
-    }
-
-    /* ── CTA ── */
-    .cta-section { background: var(--black-3); text-align: center; padding: 100px 24px; border-top: 1px solid var(--black-4); }
-    .cta-inner { max-width: 700px; margin: 0 auto; }
-    .cta-h { font-size: clamp(28px, 5vw, 52px); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 16px; }
-    .cta-sub { font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 40px; }
-    .cta-btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--gold); color: #0A0A0C;
-      font-size: 15px; font-weight: 800; letter-spacing: 0.04em;
-      padding: 16px 38px; border-radius: 999px; text-decoration: none;
-      transition: background 0.3s, transform 0.2s;
-    }
-    .cta-btn:hover { background: var(--gold-light); transform: scale(1.04); }
-    .cta-note { font-size: 12px; color: var(--text-muted); margin-top: 14px; }
-
-    footer {
-      text-align: center; padding: 30px;
-      border-top: 1px solid var(--black-4);
-      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--text-muted);
-    }
-
-
-    /* ── TOOLTIP ── */
-    .info-tooltip { position: relative; display: inline-flex; align-items: center; margin-left: 6px; vertical-align: middle; cursor: default; }
-    .info-icon {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 15px; height: 15px; border-radius: 50%;
-      background: var(--black-4); border: 1px solid var(--gold-border);
-      color: var(--gold); font-size: 9px; font-weight: 800; font-style: italic;
-      line-height: 1; cursor: help;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .info-tooltip:hover .info-icon { background: var(--gold-dim); border-color: var(--gold); }
-    .tooltip-text {
-      visibility: hidden; opacity: 0;
-      position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
-      background: var(--black-3); border: 1px solid var(--gold-border);
-      color: var(--text-secondary); font-size: 11px; font-weight: 500; font-style: normal;
-      line-height: 1.5; white-space: nowrap; padding: 8px 12px; border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      transition: opacity 0.2s; pointer-events: none; z-index: 200;
-    }
-    .tooltip-text::after {
-      content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-      border: 5px solid transparent; border-top-color: var(--gold-border);
-    }
-    .info-tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
-
-
-    /* ── TOOLTIP ── */
-    .info-tooltip { position: relative; display: inline-flex; align-items: center; margin-left: 6px; vertical-align: middle; cursor: default; }
-    .info-icon {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 15px; height: 15px; border-radius: 50%;
-      background: var(--black-4); border: 1px solid var(--gold-border);
-      color: var(--gold); font-size: 9px; font-weight: 800; font-style: italic;
-      line-height: 1; cursor: help; transition: background 0.2s, border-color 0.2s;
-    }
-    .info-tooltip:hover .info-icon { background: var(--gold-dim); border-color: var(--gold); }
-    .tooltip-text {
-      visibility: hidden; opacity: 0;
-      position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
-      background: var(--black-3); border: 1px solid var(--gold-border);
-      color: var(--text-secondary); font-size: 11px; font-weight: 500; font-style: normal;
-      line-height: 1.5; white-space: nowrap; padding: 8px 12px; border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      transition: opacity 0.2s; pointer-events: none; z-index: 200;
-    }
-    .tooltip-text::after {
-      content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-      border: 5px solid transparent; border-top-color: var(--gold-border);
-    }
-    .info-tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
-
-    /* inputs no spinner */
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
-    input[type=number] { -moz-appearance: textfield; }
-
-    /* slider */
-    .user-slider {
-      width: 100%; -webkit-appearance: none; appearance: none;
-      height: 6px; border-radius: 999px;
-      background: linear-gradient(90deg, var(--gold) var(--pct,0%), var(--black-4) var(--pct,0%));
-      outline: none; cursor: pointer; margin-top: 12px;
-    }
-    .user-slider::-webkit-slider-thumb {
-      -webkit-appearance: none; appearance: none;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: var(--gold); border: 3px solid var(--black-2);
-      box-shadow: 0 2px 8px rgba(201,168,76,0.4);
-      cursor: grab; transition: transform 0.15s;
-    }
-    .user-slider::-webkit-slider-thumb:active { transform: scale(1.2); cursor: grabbing; }
-    .user-slider::-moz-range-thumb {
-      width: 22px; height: 22px; border-radius: 50%;
-      background: var(--gold); border: 3px solid var(--black-2); cursor: grab;
-    }
-
-    .lp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; display: inline-block; }
-
-    /* Toggle switch */
-    .toggle-switch { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider {
-      position: absolute; cursor: pointer; inset: 0;
-      background: var(--black-4); border-radius: 999px;
-      transition: background 0.25s;
-    }
-    .toggle-slider::before {
-      content: ''; position: absolute;
-      width: 14px; height: 14px; border-radius: 50%;
-      background: var(--text-muted);
-      left: 3px; top: 3px;
-      transition: transform 0.25s, background 0.25s;
-    }
-    .toggle-switch input:checked + .toggle-slider { background: rgba(81,172,188,0.25); border: 1px solid var(--pacific-border); }
-    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(16px); background: var(--pacific); }
-
-    /* divider between sections */
-    .divider-line { border: none; border-top: 1px solid var(--black-4); }
-
-
-    @media(max-width:640px){
-      /* Larger tap targets */
-      .cta-btn { padding: 14px 28px; font-size: 14px; }
-      .ff-card, .tier-card { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-      /* Calculator inputs bigger on mobile */
-      .calc-input { font-size: 18px; padding: 14px 16px; }
-      /* Section headers */
-      .section-h { font-size: clamp(26px, 7vw, 40px); }
-      /* Hero h1 */
-      .hero h1 { font-size: clamp(38px, 10vw, 70px); }
-      /* Neto main number */
-      .neto-main { font-size: clamp(28px, 8vw, 44px); }
-    }
-    /* ══════════════════════════════════
-       RESPONSIVE MOBILE — added
-    ══════════════════════════════════ */
-
-    /* NAV mobile */
-    @media(max-width:768px){
-      nav {
-        padding: 12px 18px;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      .nav-logo { gap: 8px; }
-      /* Hide nav links on mobile, keep logos + pill */
-      .nav-links { display: none !important; }
-      nav > div:nth-child(2) { gap: 10px; }
-      .nav-pill { font-size: 9px; padding: 3px 9px; }
-    }
-
-    /* Hero card fixed width → fluid */
-    @media(max-width:480px){
-      .hero-card-wrap { width: 100%; padding: 0 8px; }
-      .hero-card { width: 100% !important; height: auto !important; padding: 22px 20px; }
-      .hero { padding: 100px 16px 60px; }
-      .hero-stats { gap: 10px; }
-      .hstat { padding: 14px 16px; }
-    }
-
-    /* All inline 2-col grids → 1 col on mobile */
-    @media(max-width:640px){
-      div[style*="grid-template-columns:1fr 1fr"],
-      div[style*="grid-template-columns: 1fr 1fr"] {
-        grid-template-columns: 1fr !important;
-      }
-      /* Section padding */
-      .section { padding: 60px 16px; }
-      .section-inner { padding: 0; }
-      .calc-left, .calc-right { padding: 24px 20px; }
-      .calc-header { padding: 20px 20px; }
-      /* Breakdown table */
-      .bt-header { display: none; }
-      .bt-row { grid-template-columns: 1fr 1fr !important; gap: 4px; font-size:12px; padding: 10px 14px; }
-    }
-
-    /* Exec card */
-    @media(max-width:480px){
-      #exec-grid { flex-direction: column; align-items: center; }
-      .exec-card { max-width: 100% !important; width: 100% !important; }
-      .cta-section { padding: 60px 16px; }
-    }
-
-    /* FF grid */
-    @media(max-width:480px){
-      .ff-grid { grid-template-columns: 1fr !important; }
-    }
-
-    /* Tier grid already has media queries but reinforce */
-    @media(max-width:400px){
-      .tier-grid { grid-template-columns: 1fr !important; }
-    }
-
-    /* Hero wordmark separator on mobile */
-    @media(max-width:480px){
-      .nav-wordmark { font-size: 16px; }
-    }
-
-    /* Tooltip — show below on mobile */
-    @media(max-width:600px){
-      .tooltip-text { left: auto; right: 0; transform: none; }
-      .tooltip-text::after { left: auto; right: 10px; }
-    }
-  </style>
+  .footer{padding:36px 0;text-align:center;color:var(--text-dim);font-size:12.5px;}
+</style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
-<nav>
-  <div class="nav-logo">
-    <!-- Jeeves logo → tryjeeves.com -->
-    <a href="https://www.tryjeeves.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--gold);">
-      <svg width="32" height="32" viewBox="0 0 1590.21 1517.93" xmlns="http://www.w3.org/2000/svg">
-        <circle fill="#020202" cx="798.37" cy="759.62" r="659.19"/>
-        <path fill="#c1a464" d="M703.2,775.19h190.35l-27.93-210.47c68.69-6.56,137.38-13.12,206.08-19.68-46.52-49.28-93.05-98.56-139.57-147.85l-133.75,112.72-133.75-112.72c-46.52,49.28-93.05,98.56-139.57,147.85,68.69,6.56,137.38,13.12,206.08,19.68l-27.93,210.47Z"/>
-        <polygon fill="#c1a464" points="654.57 640.37 504.17 567.02 442.73 632.24 653.08 806.35 654.57 640.37"/>
-        <path fill="#c1a464" d="M775.18,907.85l-113.17-94.12-74.68,75.47c19.33,35.07,45.63,82.62,64.95,117.69,43.29-17.48,79.61-47.42,122.9-64.9v-34.14Z"/>
-        <path fill="#c1a464" d="M673.8,1045.36c5.31,19.79,10.63,39.59,15.94,59.38l26.95,17.3h163.36l26.95-17.3c5.31-19.79,10.63-39.59,15.94-59.38-41.52-9.7-83.05-19.4-124.57-29.09-41.52,9.7-83.05,19.4-124.57,29.09Z"/>
-        <polygon fill="#c1a464" points="943.66 806.35 1154.01 632.24 1092.57 567.02 942.17 640.37 943.66 806.35"/>
-        <path fill="#c1a464" d="M821.56,907.85v34.14c43.29,17.48,78.11,47.42,121.41,64.9,19.33-35.07,47.12-82.62,66.45-117.69l-74.68-75.47-113.17,94.12Z"/>
-      </svg>
-      <span class="nav-wordmark">Jeeves</span>
-    </a>
-    
-
-    <!-- Contex client logo -->
-    <span style="width:1px;height:24px;background:var(--black-4);display:inline-block;margin:0 16px;"></span>
-    <a href="https://contex.com.co/" target="_blank" rel="noopener" style="display:flex;align-items:center;background:#FFFFFF;border-radius:10px;padding:6px 14px;box-shadow:0 2px 10px rgba(0,0,0,0.25);">
-      <svg width="100" height="27" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-<g clip-path="url(#clip0_6_13_navlogo)">
-<path d="M117.078 3C116.017 3 115.156 3.89418 115.156 4.99661C115.156 6.09905 116.017 6.99323 117.078 6.99323C118.139 6.99323 119 6.09905 119 4.99661C118.999 3.89418 118.139 3 117.078 3ZM117.078 6.60142C116.225 6.60142 115.533 5.88328 115.533 4.99661C115.533 4.10995 116.225 3.39181 117.078 3.39181C117.932 3.39181 118.623 4.10995 118.623 4.99661C118.623 5.88328 117.931 6.60142 117.078 6.60142Z" fill="#3D4242"/>
-<path d="M72.2747 3.04831V8.80629H76.6506V12.748H75.7496C74.7339 12.748 73.7171 12.7555 72.7014 12.7437C72.4162 12.7405 72.285 12.8199 72.2871 13.1419C72.3088 15.7461 72.2571 18.3525 72.3553 20.9534C72.4317 22.993 73.6996 24.1781 75.6948 24.3015C76.1019 24.3262 76.5121 24.3047 76.9895 24.3047V28.6146C76.3127 28.635 75.6597 28.7295 75.0242 28.6586C74.0044 28.5438 72.9608 28.4364 71.9895 28.1187C69.2493 27.2213 67.625 24.9198 67.5723 21.9206C67.5227 19.1125 67.5475 16.3022 67.5392 13.493C67.5382 13.2751 67.5392 13.0571 67.5392 12.7748H65.0367V11.0444C65.0367 10.6022 65.0325 10.1588 65.0377 9.71657C65.0511 8.66459 64.8982 8.82454 65.9346 8.81058C66.4429 8.80414 66.9503 8.80629 67.4586 8.79985C67.5041 8.79985 67.5496 8.77194 67.6539 8.73759V3.04831C69.1935 3.04831 70.7341 3.04831 72.2747 3.04831Z" fill="#3D4242"/>
-<path d="M63.9972 28.4525H59.2783V27.7934C59.2783 24.0997 59.2814 20.407 59.2741 16.7133C59.2731 16.2217 59.2504 15.7236 59.1749 15.2395C58.8619 13.2375 57.6571 12.3347 55.6773 12.5913C52.8792 12.953 50.8303 15.2083 50.7383 18.2172C50.6422 21.3968 50.6774 24.5795 50.6546 27.7612C50.6536 27.9791 50.6546 28.196 50.6546 28.4482H45.9347V8.54436H50.7238V11.6455C50.883 11.4609 50.9687 11.3761 51.038 11.2795C52.6437 9.03063 54.8218 7.9969 57.4876 8.05701C58.2026 8.07311 58.9321 8.14718 59.6244 8.32215C62.0743 8.94261 63.3452 10.7084 63.7874 13.1881C63.9238 13.9524 63.9848 14.7414 63.9879 15.5196C64.0075 19.6213 63.9972 23.7229 63.9972 27.8256C63.9972 28.0242 63.9972 28.2239 63.9972 28.4525Z" fill="#3D4242"/>
-<path d="M113.758 28.4815C112.013 28.4815 110.36 28.4912 108.707 28.4644C108.553 28.4622 108.353 28.2561 108.257 28.0919C107.068 26.0566 105.894 24.0117 104.716 21.9689C104.676 21.8981 104.629 21.8315 104.546 21.7016C104.425 21.9131 104.329 22.0816 104.23 22.2502C103.093 24.2189 101.958 26.1886 100.811 28.152C100.731 28.2905 100.559 28.4633 100.428 28.4644C98.7594 28.4858 97.0896 28.4783 95.3268 28.4783C95.799 27.7194 96.2278 27.0249 96.6618 26.3336C98.2334 23.8238 99.8019 21.312 101.387 18.8108C101.586 18.4963 101.597 18.2763 101.392 17.9532C99.5126 14.9818 97.6507 11.9987 95.7846 9.01776C95.6978 8.87929 95.6193 8.73652 95.4808 8.50143H96.3291C97.6569 8.50143 98.9846 8.52505 100.311 8.48855C100.761 8.47567 100.978 8.6485 101.182 9.03387C102.242 11.0283 103.328 13.0078 104.406 14.9915C104.436 15.0473 104.477 15.0967 104.562 15.2202C104.721 14.9121 104.849 14.6491 104.989 14.3925C105.998 12.544 107.007 10.6945 108.028 8.85138C108.107 8.70861 108.273 8.51968 108.401 8.51754C110.102 8.49499 111.802 8.50251 113.607 8.50251C113.47 8.74189 113.381 8.90935 113.281 9.06929C111.432 12.0213 109.589 14.9765 107.725 17.9177C107.5 18.273 107.519 18.5103 107.738 18.8548C109.663 21.897 111.569 24.952 113.479 28.0039C113.558 28.1327 113.63 28.2626 113.758 28.4815Z" fill="#3D4242"/>
-<path d="M41.2643 10.9092C38.4735 8.29424 35.1412 7.60616 31.5134 8.28136C26.2747 9.25605 22.7224 14.2261 23.3361 19.6706C23.8352 24.0943 26.7562 27.5261 30.9358 28.5749C31.6601 28.7563 32.403 28.8604 33.1377 29H34.6132C34.7351 28.9667 34.856 28.913 34.981 28.9023C39.8529 28.488 43.8847 24.8565 44.3744 19.7029C44.702 16.2571 43.7638 13.2514 41.2643 10.9092ZM37.6933 23.2087C36.6301 24.2403 35.3509 24.7298 33.3919 24.7373C30.6072 24.7974 27.7978 21.9002 28.1646 17.9123C28.4301 15.0205 30.0802 13.041 32.5477 12.4227C35.8986 11.5833 39.1978 14.0222 39.5388 17.5957C39.7444 19.7555 39.266 21.6834 37.6933 23.2087Z" fill="#3D4242"/>
-<path d="M94.8991 19.4109C95.1729 19.4109 95.4818 19.4796 95.4674 19.0137C95.4302 17.8104 95.5159 16.5898 95.3475 15.4069C94.9931 12.9176 93.8968 10.8329 91.8251 9.40955C90.0954 8.22124 88.155 7.9196 86.136 8.07525C83.6003 8.27169 81.4005 9.26249 79.7059 11.272C77.75 13.5917 77.1135 16.3548 77.2871 19.3776C77.5423 23.8227 80.4685 27.5154 84.6274 28.5749C85.3517 28.7595 86.0957 28.8583 86.8303 28.9968H88.3058C88.4298 28.9635 88.5517 28.9109 88.6768 28.9012C89.9787 28.8014 91.2279 28.4654 92.4223 27.933C93.4597 27.4703 94.4465 26.91 95.3114 26.0952C94.6935 24.9059 94.09 23.7455 93.4752 22.5625C93.3213 22.6774 93.2035 22.7665 93.0826 22.8534C91.3994 24.0632 89.5798 24.8511 87.4885 24.718C85.6989 24.6042 84.1893 23.885 83.125 22.336C82.5381 21.4826 82.2044 20.5262 82.162 19.4087H82.8068C86.8365 19.4119 90.8673 19.4119 94.8991 19.4109ZM87.1165 11.8656C89.6883 11.9955 90.8012 14.181 90.8373 16.0145H82.3242C82.6497 13.6561 84.368 11.7261 87.1165 11.8656Z" fill="#3D4242"/>
-<path d="M116.298 5.99384V3.99937H117.114C117.32 3.99937 117.469 4.01762 117.562 4.05305C117.655 4.08847 117.729 4.15288 117.785 4.24412C117.841 4.33536 117.869 4.44056 117.869 4.55864C117.869 4.70785 117.826 4.83237 117.741 4.92898C117.657 5.02666 117.531 5.08785 117.361 5.11361C117.445 5.16407 117.514 5.21989 117.569 5.28107C117.624 5.34226 117.697 5.4496 117.79 5.60525L118.025 5.99492H117.561L117.281 5.56124C117.181 5.40559 117.113 5.30791 117.076 5.26819C117.04 5.2274 117.001 5.20056 116.959 5.18554C116.918 5.17051 116.853 5.16299 116.764 5.16299H116.685V5.99599H116.298V5.99384ZM116.687 4.8431H116.974C117.16 4.8431 117.275 4.83452 117.322 4.81842C117.368 4.80231 117.405 4.7744 117.43 4.73361C117.456 4.6939 117.47 4.64344 117.47 4.5844C117.47 4.51678 117.452 4.4631 117.418 4.42231C117.384 4.38152 117.335 4.35469 117.272 4.34395C117.241 4.33966 117.146 4.33751 116.989 4.33751H116.687V4.8431Z" fill="#3D4242"/>
-<path d="M8.74019 12.9842C9.20722 12.7104 9.72282 12.5011 10.2798 12.3616C13.3548 11.5919 16.3843 13.5831 17.1262 16.6768H22.0528C21.7335 14.4591 20.7498 12.4904 18.9974 10.848C16.2066 8.23307 12.8743 7.54499 9.24648 8.22019C7.90014 8.4703 6.66539 8.98556 5.58356 9.70477L8.74019 12.9842Z" fill="#3D4242"/>
-<path d="M17.1107 20.2385C16.8441 21.3141 16.3068 22.2942 15.4275 23.1476C14.3642 24.1792 13.0851 24.6686 11.126 24.6762C10.289 24.6944 9.45106 24.4443 8.69677 23.9784L5.60938 27.1859C6.52485 27.7806 7.55192 28.2325 8.66991 28.5137C9.39423 28.6952 10.1371 28.7993 10.8718 28.9388H12.3473C12.4692 28.9055 12.5901 28.8519 12.7151 28.8411C17.3958 28.4429 21.2995 25.0744 22.0331 20.2396H17.1107V20.2385Z" fill="#3D4242"/>
-<path d="M6.42566 21.3002C5.99169 20.3051 5.77987 19.135 5.89767 17.8512C5.97309 17.0353 6.15805 16.2925 6.44013 15.6313L3.05412 12.1136C1.52798 14.1768 0.756135 16.8314 1.06921 19.6095C1.29033 21.5728 1.99089 23.3408 3.06445 24.7921L6.42566 21.3002Z" fill="#098375"/>
-</g>
-<defs>
-<clipPath id="clip0_6_13_navlogo">
-<rect width="118" height="26" fill="white" transform="translate(1 3)"/>
-</clipPath>
-</defs>
-</svg>
-    </a>
-  </div>
-  <div style="display:flex;align-items:center;gap:20px;">
-    <div class="nav-links" style="display:flex;gap:20px;">
-      <a href="#sec-hero" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Tarjetas</a>
-      <a href="#sec-jeevespay" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--pacific)'" onmouseout="this.style.color='var(--text-muted)'">Pay</a>
-      <a href="#sec-control" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-muted)'">Control</a>
-      <a href="#sec-contabilidad" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Contable</a>
-      <a href="#sec-calc" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">Calculadora</a>
-    </div>
-    <a href="#sec-cta" style="text-decoration:none;"><span class="nav-pill">Propuesta Contex</span></a>
-
-  </div>
-</nav>
-
-<!-- ══ HERO ══ -->
-<section class="hero" id="sec-hero">
-  <div class="eyebrow reveal">Control total del gasto empresarial</div>
-  <h1 class="reveal">Tarjetas que<br><em>obedecen tus reglas.</em></h1>
-  <p class="hero-sub reveal">Crea, controla y monitorea cada tarjeta de tu empresa — por usuario, área o evento — con límites en tiempo real, visibilidad total y sin fricción.</p>
-
-  <div class="hero-card-wrap reveal">
-    <div class="hero-card">
-      <div class="hc-top">
-        <div class="hc-logo">
-          <svg width="20" height="20" viewBox="0 0 1590.21 1517.93" xmlns="http://www.w3.org/2000/svg">
-            <circle fill="#020202" cx="798.37" cy="759.62" r="659.19"/>
-            <path fill="#c1a464" d="M703.2,775.19h190.35l-27.93-210.47c68.69-6.56,137.38-13.12,206.08-19.68-46.52-49.28-93.05-98.56-139.57-147.85l-133.75,112.72-133.75-112.72c-46.52,49.28-93.05,98.56-139.57,147.85,68.69,6.56,137.38,13.12,206.08,19.68l-27.93,210.47Z"/>
-            <polygon fill="#c1a464" points="654.57 640.37 504.17 567.02 442.73 632.24 653.08 806.35 654.57 640.37"/>
-            <path fill="#c1a464" d="M775.18,907.85l-113.17-94.12-74.68,75.47c19.33,35.07,45.63,82.62,64.95,117.69,43.29-17.48,79.61-47.42,122.9-64.9v-34.14Z"/>
-            <path fill="#c1a464" d="M673.8,1045.36c5.31,19.79,10.63,39.59,15.94,59.38l26.95,17.3h163.36l26.95-17.3c5.31-19.79,10.63-39.59,15.94-59.38-41.52-9.7-83.05-19.4-124.57-29.09-41.52,9.7-83.05,19.4-124.57,29.09Z"/>
-            <polygon fill="#c1a464" points="943.66 806.35 1154.01 632.24 1092.57 567.02 942.17 640.37 943.66 806.35"/>
-            <path fill="#c1a464" d="M821.56,907.85v34.14c43.29,17.48,78.11,47.42,121.41,64.9,19.33-35.07,47.12-82.62,66.45-117.69l-74.68-75.47-113.17,94.12Z"/>
-          </svg>
-          <span class="hc-logo-text">JEEVES</span>
-        </div>
-        <div class="hc-tag">Activa ✦</div>
-      </div>
-      <div class="hc-chip"></div>
-      <div class="hc-num">•••• •••• •••• 4821</div>
-      <div class="hc-bottom">
-        <div>
-          <div class="hc-label-small">Titular</div>
-          <div class="hc-name" style="font-size:11px;letter-spacing:0.03em;">Martin Calderon</div>
-          <div class="hc-label-small" style="margin-top:2px;">Finanzas · Contex</div>
-        </div>
-        <div style="text-align:right">
-          <div class="hc-label-small">Límite mensual</div>
-          <div style="font-size:16px;font-weight:800;color:var(--gold);">USD 15,000</div>
-        </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="top-bar">
+      <div class="jeeves-mark"><span class="dot"></span> Jeeves</div>
+      <div class="client-logo-badge">
+        <svg width="100" height="27" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+          <g clip-path="url(#clip0_contex_navlogo)">
+            <path d="M117.078 3C116.017 3 115.156 3.89418 115.156 4.99661C115.156 6.09905 116.017 6.99323 117.078 6.99323C118.139 6.99323 119 6.09905 119 4.99661C118.999 3.89418 118.139 3 117.078 3ZM117.078 6.60142C116.225 6.60142 115.533 5.88328 115.533 4.99661C115.533 4.10995 116.225 3.39181 117.078 3.39181C117.932 3.39181 118.623 4.10995 118.623 4.99661C118.623 5.88328 117.931 6.60142 117.078 6.60142Z" fill="#3D4242"/>
+            <path d="M72.2747 3.04831V8.80629H76.6506V12.748H75.7496C74.7339 12.748 73.7171 12.7555 72.7014 12.7437C72.4162 12.7405 72.285 12.8199 72.2871 13.1419C72.3088 15.7461 72.2571 18.3525 72.3553 20.9534C72.4317 22.993 73.6996 24.1781 75.6948 24.3015C76.1019 24.3262 76.5121 24.3047 76.9895 24.3047V28.6146C76.3127 28.635 75.6597 28.7295 75.0242 28.6586C74.0044 28.5438 72.9608 28.4364 71.9895 28.1187C69.2493 27.2213 67.625 24.9198 67.5723 21.9206C67.5227 19.1125 67.5475 16.3022 67.5392 13.493C67.5382 13.2751 67.5392 13.0571 67.5392 12.7748H65.0367V11.0444C65.0367 10.6022 65.0325 10.1588 65.0377 9.71657C65.0511 8.66459 64.8982 8.82454 65.9346 8.81058C66.4429 8.80414 66.9503 8.80629 67.4586 8.79985C67.5041 8.79985 67.5496 8.77194 67.6539 8.73759V3.04831C69.1935 3.04831 70.7341 3.04831 72.2747 3.04831Z" fill="#3D4242"/>
+            <path d="M63.9972 28.4525H59.2783V27.7934C59.2783 24.0997 59.2814 20.407 59.2741 16.7133C59.2731 16.2217 59.2504 15.7236 59.1749 15.2395C58.8619 13.2375 57.6571 12.3347 55.6773 12.5913C52.8792 12.953 50.8303 15.2083 50.7383 18.2172C50.6422 21.3968 50.6774 24.5795 50.6546 27.7612C50.6536 27.9791 50.6546 28.196 50.6546 28.4482H45.9347V8.54436H50.7238V11.6455C50.883 11.4609 50.9687 11.3761 51.038 11.2795C52.6437 9.03063 54.8218 7.9969 57.4876 8.05701C58.2026 8.07311 58.9321 8.14718 59.6244 8.32215C62.0743 8.94261 63.3452 10.7084 63.7874 13.1881C63.9238 13.9524 63.9848 14.7414 63.9879 15.5196C64.0075 19.6213 63.9972 23.7229 63.9972 27.8256C63.9972 28.0242 63.9972 28.2239 63.9972 28.4525Z" fill="#3D4242"/>
+            <path d="M113.758 28.4815C112.013 28.4815 110.36 28.4912 108.707 28.4644C108.553 28.4622 108.353 28.2561 108.257 28.0919C107.068 26.0566 105.894 24.0117 104.716 21.9689C104.676 21.8981 104.629 21.8315 104.546 21.7016C104.425 21.9131 104.329 22.0816 104.23 22.2502C103.093 24.2189 101.958 26.1886 100.811 28.152C100.731 28.2905 100.559 28.4633 100.428 28.4644C98.7594 28.4858 97.0896 28.4783 95.3268 28.4783C95.799 27.7194 96.2278 27.0249 96.6618 26.3336C98.2334 23.8238 99.8019 21.312 101.387 18.8108C101.586 18.4963 101.597 18.2763 101.392 17.9532C99.5126 14.9818 97.6507 11.9987 95.7846 9.01776C95.6978 8.87929 95.6193 8.73652 95.4808 8.50143H96.3291C97.6569 8.50143 98.9846 8.52505 100.311 8.48855C100.761 8.47567 100.978 8.6485 101.182 9.03387C102.242 11.0283 103.328 13.0078 104.406 14.9915C104.436 15.0473 104.477 15.0967 104.562 15.2202C104.721 14.9121 104.849 14.6491 104.989 14.3925C105.998 12.544 107.007 10.6945 108.028 8.85138C108.107 8.70861 108.273 8.51968 108.401 8.51754C110.102 8.49499 111.802 8.50251 113.607 8.50251C113.47 8.74189 113.381 8.90935 113.281 9.06929C111.432 12.0213 109.589 14.9765 107.725 17.9177C107.5 18.273 107.519 18.5103 107.738 18.8548C109.663 21.897 111.569 24.952 113.479 28.0039C113.558 28.1327 113.63 28.2626 113.758 28.4815Z" fill="#3D4242"/>
+            <path d="M41.2643 10.9092C38.4735 8.29424 35.1412 7.60616 31.5134 8.28136C26.2747 9.25605 22.7224 14.2261 23.3361 19.6706C23.8352 24.0943 26.7562 27.5261 30.9358 28.5749C31.6601 28.7563 32.403 28.8604 33.1377 29H34.6132C34.7351 28.9667 34.856 28.913 34.981 28.9023C39.8529 28.488 43.8847 24.8565 44.3744 19.7029C44.702 16.2571 43.7638 13.2514 41.2643 10.9092ZM37.6933 23.2087C36.6301 24.2403 35.3509 24.7298 33.3919 24.7373C30.6072 24.7974 27.7978 21.9002 28.1646 17.9123C28.4301 15.0205 30.0802 13.041 32.5477 12.4227C35.8986 11.5833 39.1978 14.0222 39.5388 17.5957C39.7444 19.7555 39.266 21.6834 37.6933 23.2087Z" fill="#3D4242"/>
+            <path d="M94.8991 19.4109C95.1729 19.4109 95.4818 19.4796 95.4674 19.0137C95.4302 17.8104 95.5159 16.5898 95.3475 15.4069C94.9931 12.9176 93.8968 10.8329 91.8251 9.40955C90.0954 8.22124 88.155 7.9196 86.136 8.07525C83.6003 8.27169 81.4005 9.26249 79.7059 11.272C77.75 13.5917 77.1135 16.3548 77.2871 19.3776C77.5423 23.8227 80.4685 27.5154 84.6274 28.5749C85.3517 28.7595 86.0957 28.8583 86.8303 28.9968H88.3058C88.4298 28.9635 88.5517 28.9109 88.6768 28.9012C89.9787 28.8014 91.2279 28.4654 92.4223 27.933C93.4597 27.4703 94.4465 26.91 95.3114 26.0952C94.6935 24.9059 94.09 23.7455 93.4752 22.5625C93.3213 22.6774 93.2035 22.7665 93.0826 22.8534C91.3994 24.0632 89.5798 24.8511 87.4885 24.718C85.6989 24.6042 84.1893 23.885 83.125 22.336C82.5381 21.4826 82.2044 20.5262 82.162 19.4087H82.8068C86.8365 19.4119 90.8673 19.4119 94.8991 19.4109ZM87.1165 11.8656C89.6883 11.9955 90.8012 14.181 90.8373 16.0145H82.3242C82.6497 13.6561 84.368 11.7261 87.1165 11.8656Z" fill="#3D4242"/>
+            <path d="M116.298 5.99384V3.99937H117.114C117.32 3.99937 117.469 4.01762 117.562 4.05305C117.655 4.08847 117.729 4.15288 117.785 4.24412C117.841 4.33536 117.869 4.44056 117.869 4.55864C117.869 4.70785 117.826 4.83237 117.741 4.92898C117.657 5.02666 117.531 5.08785 117.361 5.11361C117.445 5.16407 117.514 5.21989 117.569 5.28107C117.624 5.34226 117.697 5.4496 117.79 5.60525L118.025 5.99492H117.561L117.281 5.56124C117.181 5.40559 117.113 5.30791 117.076 5.26819C117.04 5.2274 117.001 5.20056 116.959 5.18554C116.918 5.17051 116.853 5.16299 116.764 5.16299H116.685V5.99599H116.298V5.99384ZM116.687 4.8431H116.974C117.16 4.8431 117.275 4.83452 117.322 4.81842C117.368 4.80231 117.405 4.7744 117.43 4.73361C117.456 4.6939 117.47 4.64344 117.47 4.5844C117.47 4.51678 117.452 4.4631 117.418 4.42231C117.384 4.38152 117.335 4.35469 117.272 4.34395C117.241 4.33966 117.146 4.33751 116.989 4.33751H116.687V4.8431Z" fill="#3D4242"/>
+            <path d="M8.74019 12.9842C9.20722 12.7104 9.72282 12.5011 10.2798 12.3616C13.3548 11.5919 16.3843 13.5831 17.1262 16.6768H22.0528C21.7335 14.4591 20.7498 12.4904 18.9974 10.848C16.2066 8.23307 12.8743 7.54499 9.24648 8.22019C7.90014 8.4703 6.66539 8.98556 5.58356 9.70477L8.74019 12.9842Z" fill="#3D4242"/>
+            <path d="M17.1107 20.2385C16.8441 21.3141 16.3068 22.2942 15.4275 23.1476C14.3642 24.1792 13.0851 24.6686 11.126 24.6762C10.289 24.6944 9.45106 24.4443 8.69677 23.9784L5.60938 27.1859C6.52485 27.7806 7.55192 28.2325 8.66991 28.5137C9.39423 28.6952 10.1371 28.7993 10.8718 28.9388H12.3473C12.4692 28.9055 12.5901 28.8519 12.7151 28.8411C17.3958 28.4429 21.2995 25.0744 22.0331 20.2396H17.1107V20.2385Z" fill="#3D4242"/>
+            <path d="M6.42566 21.3002C5.99169 20.3051 5.77987 19.135 5.89767 17.8512C5.97309 17.0353 6.15805 16.2925 6.44013 15.6313L3.05412 12.1136C1.52798 14.1768 0.756135 16.8314 1.06921 19.6095C1.29033 21.5728 1.99089 23.3408 3.06445 24.7921L6.42566 21.3002Z" fill="#098375"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_contex_navlogo">
+              <rect width="118" height="26" fill="white" transform="translate(1 3)"/>
+            </clipPath>
+          </defs>
+        </svg>
       </div>
     </div>
-  </div>
-
-
-  </div>
-
-  <div class="hero-stats reveal">
-    <div class="hstat"><div class="hstat-num">150+</div><div class="hstat-label">Países aceptados</div></div>
-    <div class="hstat"><div class="hstat-num">∞</div><div class="hstat-label">Tarjetas virtuales ilimitadas</div></div>
-    <div class="hstat"><div class="hstat-num">⚡</div><div class="hstat-label">Emisión instantánea</div></div>
-    <div class="hstat"><div class="hstat-num">50</div><div class="hstat-label">Cards incluidas</div><div style="font-size:9px;color:var(--text-muted);margin-top:4px;">+ USD 5 / card adicional</div></div>
-    <div class="hstat"><div class="hstat-num">0</div><div class="hstat-label">Sorpresas al mes</div></div>
-  </div>
-
-  <div class="scroll-hint">
-    <span>Ver propuesta</span>
-    <svg width="14" height="14" fill="none" viewBox="0 0 16 16"><path d="M8 3v10M3 8l5 5 5-5" stroke="#5A5755" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════
-     SECCIÓN — JEEVES PAY (de la propuesta Intertek)
-══════════════════════════════════════ -->
-<section id="sec-jeevespay" class="section" style="background:var(--black);">
-  <div class="section-inner">
-
-    <div class="reveal">
-      <div class="section-tag">③ Jeeves Pay</div>
-      <h2 class="section-h">Paga a tus proveedores.<br><em style="font-style:normal;background:linear-gradient(135deg,var(--pacific),#7ecfde);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">37 días después.</em></h2>
-      <p class="section-sub">Envía dinero a crédito a proveedores nacionales e internacionales — y paga hasta 37 días después. Liquidez garantizada sin sacrificar relaciones comerciales.</p>
+    <span class="pill">Propuesta Comercial · Plan Enterprise · Agosto 2026</span>
+    <h1>Pagos a proveedores con dispersión a cuentas y con Tarjeta de Crédito — en una sola plataforma.</h1>
+    <p class="lead">Reemplaza el pago tradicional a proveedores por dos rieles complementarios: TC con hasta 37 días sin intereses, sin 4x1000 y cashback 1%, o dispersión directa a las cuentas bancarias de tus proveedores con hasta 37 días de apalancamiento. Preparado para Constructora Contex.</p>
+    <div class="stat-row">
+      <span class="pill"><b>+5K</b> clientes</span>
+      <span class="pill"><b>26</b> países</span>
+      <span class="pill"><b>$5B+</b> transacciones USD</span>
+      <span class="pill"><b>37 días</b> sin interés</span>
     </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:start;" class="reveal">
-
-      <!-- Visual mockup -->
-      <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:20px;padding:32px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(81,172,188,0.1) 0%,transparent 70%);pointer-events:none;"></div>
-        <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px;">Pagos recientes</div>
-
-        <!-- Pay rows -->
-        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--black-3);border:1px solid var(--black-4);border-radius:12px;padding:14px 18px;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:36px;height:36px;border-radius:10px;background:var(--pacific-dim);border:1px solid var(--pacific-border);display:flex;align-items:center;justify-content:center;font-size:18px;">🏭</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;">Proveedor Nacional</div>
-              <div style="font-size:11px;color:var(--text-muted);">Transferencia local · SPEI</div>
-            </div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:15px;font-weight:800;color:var(--gold);">$240,000</div>
-            <div style="font-size:10px;color:var(--green);font-weight:600;">Enviado ✓</div>
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--black-3);border:1px solid var(--black-4);border-radius:12px;padding:14px 18px;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:36px;height:36px;border-radius:10px;background:var(--green-dim);border:1px solid rgba(74,188,160,0.2);display:flex;align-items:center;justify-content:center;font-size:18px;">🌎</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;">Supplier USA</div>
-              <div style="font-size:11px;color:var(--text-muted);">Internacional · USD</div>
-            </div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:15px;font-weight:800;color:var(--green);">$18,500</div>
-            <div style="font-size:10px;color:var(--green);font-weight:600;">Enviado ✓</div>
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--black-3);border:1px solid var(--black-4);border-radius:12px;padding:14px 18px;margin-bottom:24px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:36px;height:36px;border-radius:10px;background:var(--amber-dim);border:1px solid rgba(212,145,74,0.2);display:flex;align-items:center;justify-content:center;font-size:18px;">🇨🇳</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;">China Supplier</div>
-              <div style="font-size:11px;color:var(--text-muted);">Internacional · CNY</div>
-            </div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:15px;font-weight:800;color:var(--amber);">$6,200</div>
-            <div style="font-size:10px;color:var(--green);font-weight:600;">Enviado ✓</div>
-          </div>
-        </div>
-
-        <!-- 37 días badge -->
-        <div style="background:linear-gradient(135deg,var(--pacific-dim),rgba(81,172,188,0.04));border:1px solid var(--pacific-border);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:20px;">
-          <div style="font-size:52px;font-weight:900;color:var(--pacific);line-height:1;letter-spacing:-0.04em;">37</div>
-          <div>
-            <div style="font-size:14px;font-weight:700;color:var(--text-primary);">días para pagar</div>
-            <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">Tu flujo de caja, protegido.</div>
-          </div>
-        </div>
+    <div class="cards-row">
+      <div class="cc-col">
+        <div class="cc-photo cc-world-elite"><img src="jeeves-card-world-elite.png" alt="Tarjeta Jeeves World Elite"/></div>
+        <div class="cc-caption">World Elite · Directivos</div>
       </div>
-
-      <!-- Features -->
-      <div style="display:flex;flex-direction:column;gap:14px;">
-        <div style="background:var(--black-2);border:1px solid var(--pacific-border);border-radius:16px;padding:22px 24px;">
-          <div style="font-size:22px;margin-bottom:10px;">🌐</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Pagos internacionales</div>
-          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">EE.UU., Brasil, China, México y más — desde una sola plataforma, sin intermediarios bancarios.</div>
-        </div>
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:22px 24px;">
-          <div style="font-size:22px;margin-bottom:10px;">⚡</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Pagos masivos en un clic</div>
-          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Guarda proveedores y ejecuta múltiples pagos simultáneamente sin repetir el proceso.</div>
-        </div>
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:22px 24px;">
-          <div style="font-size:22px;margin-bottom:10px;">✅</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Aprobaciones configurables</div>
-          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Por usuario, monto o proveedor — flujos de autorización a medida con doble firma opcional.</div>
-        </div>
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:22px 24px;">
-          <div style="font-size:22px;margin-bottom:10px;">💰</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Opening Fee único
-            <span class="info-tooltip">
-              <span class="info-icon">i</span>
-              <span class="tooltip-text">Únicamente en Jeeves Pay / Transferencias, Pago a Proveedores</span>
-            </span>
-          </div>
-          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Solo <span style="color:var(--gold);font-weight:700;">3.5%</span> al activar la línea — se cobra una sola vez, a diferencia de los bancos tradicionales.</div>
-        </div>
+      <div class="cc-col">
+        <div class="cc-photo cc-corporate"><img src="jeeves-card-corporate.png" alt="Tarjeta corporativa Jeeves"/></div>
+        <div class="cc-caption">Corporativa · Pagos con TC</div>
       </div>
-
+      <div class="cc-col">
+        <div class="cc-photo cc-virtual"><img src="jeeves-card-virtual.png" alt="Tarjeta virtual Jeeves"/></div>
+        <div class="cc-caption">Virtual · Ilimitadas $0</div>
+      </div>
+      <div class="cc-col">
+        <div class="cc-photo cc-proveedores"><img src="jeeves-pay-proveedores.png" alt="Jeeves Pay - Dispersión a proveedores"/></div>
+        <div class="cc-caption">Jeeves Pay · Dispersión a proveedores</div>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- CALCULADORA -->
+<section>
+  <div class="wrap">
+    <h2><span class="tag">Simulador</span>¿Cuánto ahorra Constructora Contex con Jeeves?</h2>
+    <p>Ajusta cualquier valor durante la llamada — todo se recalcula al instante, en COP y a la TRM del día.</p>
 
+    <div class="calc">
+      <div class="calc-grid">
+        <div class="field">
+          <label>Plan de la Plataforma</label>
+          <input type="text" value="Enterprise" disabled />
+        </div>
+        <div class="field">
+          <label>Valor Anual del Plan (USD)</label>
+          <input type="number" id="valorPlanUSD" value="48000" step="500" />
+          <div class="field-note">= $400 USD/usuario/mes × 10 usuarios × 12 meses</div>
+        </div>
+        <div class="field">
+          <label>TRM del día (COP/USD)</label>
+          <input type="number" id="trm" value="3121.07" step="0.01" />
+        </div>
+      </div>
 
-<!-- ══════════════════════════════════
-     SECCIÓN — PRECIOS POR TIER (MXN)
-══════════════════════════════════════ -->
-<!-- ══════════════════════════════════
-     SECCIÓN — PLATAFORMA DE CONTROL
-══════════════════════════════════════ -->
-<section id="sec-control" class="section" style="background:var(--black);">
-  <div class="section-inner">
+      <div class="calc-grid">
+        <div class="field">
+          <label>Gasto mensual en tarjetas (COP)</label>
+          <input type="number" id="gastoMensual" value="800000000" step="10000000" />
+        </div>
+        <div class="field">
+          <label class="hint">Gravamen 4x1000 — automático, no editable</label>
+          <input type="text" id="gmfPreview" disabled />
+        </div>
+      </div>
 
-    <div class="reveal">
-      <div class="section-tag">⑤ Plataforma de Control</div>
-      <h2 class="section-h">Visibilidad total<br><em style="font-style:normal;background:linear-gradient(135deg,var(--green),#7edad0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">del gasto corporativo.</em></h2>
-      <p class="section-sub">Manejo de equipos, límites de gasto y captura de recibos — todo en un solo panel. Tú decides quién gasta cuánto y cuándo.</p>
+      <div class="calc-grid">
+        <div class="field">
+          <label class="hint">Gasto mínimo con TC para cubrir el 100% del fee anual · Primer año</label>
+          <input type="text" id="gastoMinAno1" disabled />
+        </div>
+        <div class="field">
+          <label class="hint">Gasto mínimo con TC para cubrir el 100% del fee anual · Segundo año</label>
+          <input type="text" id="gastoMinAno2" disabled />
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head"><span>🧾 Ahorro por Automatización de Facturas</span><label class="toggle"><input type="checkbox" id="chkFacturas"/></label></div>
+        <div class="module-note">Desactivado para esta propuesta — la necesidad diagnosticada es pagos a proveedores, no legalización de facturas.</div>
+        <div class="calc-grid" id="facturasAssumptions" style="display:none;">
+          <div class="field"><label>Salario mensual operativo (COP)</label><input type="number" id="salarioMensual" value="3500000" step="100000" /></div>
+          <div class="field"><label>Facturas procesadas al mes</label><input type="number" id="facturasMes" value="200" step="10" /></div>
+          <div class="field"><label>Minutos por factura (captura manual)</label><input type="number" id="minutosAhorrados" value="8" step="1" /></div>
+          <div class="field"><label>Horas trabajadas al mes</label><input type="number" id="horasMes" value="160" step="10" /></div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head"><span>🏧 Ahorro en Retiros en Efectivo</span><label class="toggle"><input type="checkbox" id="chkRetiros" checked/></label></div>
+        <div class="module-note">Ahorro aplica si el % de comisión negociada es menor al 3% (tarifa estándar Jeeves).</div>
+        <div class="calc-grid">
+          <div class="field"><label>Monto de efectivo mensual (COP)</label><input type="number" id="gastoRetiros" value="200000000" step="10000000" /></div>
+          <div class="field"><label>Porcentaje de la comisión negociada (%)</label><input type="number" id="comisionRetiros" value="2" step="0.1" />
+            <div class="field-note">vs. 3% tarifa estándar Jeeves — el ahorro aplica si lo negociado es menor</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module">
+        <div class="module-head"><span>🌐 Ahorro en Comisiones Bancarias (SWIFT)</span><label class="toggle"><input type="checkbox" id="chkSwift" checked/></label></div>
+        <div class="calc-grid">
+          <div class="field"><label>Giros / transferencias al mes</label><input type="number" id="girosMes" value="10" step="1" /></div>
+          <div class="field"><label>Costo SWIFT por transacción (USD)</label><input type="number" id="costoSwift" value="60" step="1" /></div>
+        </div>
+      </div>
+
+      <h3 style="font-size:14px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:22px 0 4px;">Ahorros por rubro · Anual</h3>
+      <div class="savings-grid">
+        <div class="save-card"><div class="label">Ahorro 4x1000 (GMF)</div><div class="value" id="outGMF">—</div></div>
+        <div class="save-card"><div class="label">Cashback 1% · 6 meses</div><div class="value" id="outCashback">—</div></div>
+        <div class="save-card"><div class="label">Automatización de Facturas</div><div class="value" id="outFacturas">—</div></div>
+        <div class="save-card"><div class="label">Retiros en Efectivo</div><div class="value" id="outRetiros">—</div></div>
+        <div class="save-card"><div class="label">Comisiones Bancarias (SWIFT)</div><div class="value" id="outSwift">—</div></div>
+      </div>
+
+      <div class="totals-grid">
+        <div class="total-card"><div class="label">Costo Plan Anual (Enterprise)</div><div class="value" id="outCosto" style="color:var(--text);">—</div></div>
+      </div>
+      <div class="totals-grid">
+        <div class="total-card">
+          <div class="label">Ahorro Total · Primer Año</div>
+          <div class="value" id="outAhorroY1">—</div>
+          <div class="sub" id="outNetoY1sub" style="font-size:12.5px;color:var(--text-dim);margin-top:6px;">&nbsp;</div>
+        </div>
+        <div class="total-card">
+          <div class="label">Ahorro Total · A partir del segundo año</div>
+          <div class="value" id="outAhorroY2">—</div>
+          <div class="sub" id="outNetoY2sub" style="font-size:12.5px;color:var(--text-dim);margin-top:6px;">&nbsp;</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:14px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin:22px 0 4px;">🏆 ROE — Retorno de la inversión en la plataforma</h3>
+      <div class="roe-grid">
+        <div class="roe-card"><div class="label">Primer año</div><div class="value" id="outROE1">—</div><div class="sub" id="outROE1sub">&nbsp;</div></div>
+        <div class="roe-card"><div class="label">A partir del segundo año</div><div class="value" id="outROE2">—</div><div class="sub" id="outROE2sub">&nbsp;</div></div>
+      </div>
+
+      <p class="assump">Fórmulas: GMF = gasto anual en tarjetas × 0.4%. Cashback = gasto mensual × 6 × 1% (solo año 1). Automatización de Facturas = facturas/mes × minutos/60 × (salario mensual operativo ÷ horas trabajadas al mes) × 12 (desactivado en esta propuesta). Retiros en Efectivo = (3% − % de comisión) × monto de efectivo mensual × 12, solo si el % de comisión es menor al 3%. Comisiones Bancarias (SWIFT) = giros/mes × costo SWIFT (USD) × TRM × 12. ROE = (Ahorro total − Costo del plan) ÷ Costo del plan. Gasto mensual en tarjetas, monto de efectivo mensual, % de comisión negociada, giros/mes y costo SWIFT son supuestos ajustables, no confirmados aún con el cliente. TRM Banco de la República, 12 de agosto de 2026 ($3.121,07).</p>
     </div>
-
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;" class="reveal">
-
-      <!-- Visibilidad -->
-      <div style="background:var(--black-2);border:1px solid var(--pacific-border);border-radius:18px;padding:26px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(81,172,188,0.08) 0%,transparent 70%);"></div>
-        <div style="font-size:24px;margin-bottom:12px;">👁️</div>
-        <div style="font-size:14px;font-weight:800;color:var(--pacific);margin-bottom:12px;">Visibilidad Total</div>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Límites por tarjeta y usuario</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Transacciones en tiempo real</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Tarjetas activas y su estado</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Solicitudes pendientes</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Bloqueos y restricciones vigentes</li>
-        </ul>
-      </div>
-
-      <!-- Acciones admin -->
-      <div style="background:var(--black-2);border:1px solid var(--pacific-border);border-radius:18px;padding:26px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(81,172,188,0.08) 0%,transparent 70%);"></div>
-        <div style="font-size:24px;margin-bottom:12px;">🎛️</div>
-        <div style="font-size:14px;font-weight:800;color:var(--pacific);margin-bottom:12px;">Acciones del Admin</div>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Aprobar / rechazar solicitudes</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Modificar límites en tiempo real</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Congelar o cancelar tarjetas</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Restringir MCC o comercios</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--pacific);flex-shrink:0;"></span>Aprobar excepciones</li>
-        </ul>
-      </div>
-
-      <!-- Equipo financiero -->
-      <div style="background:var(--black-2);border:1px solid rgba(74,188,160,0.25);border-radius:18px;padding:26px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(74,188,160,0.08) 0%,transparent 70%);"></div>
-        <div style="font-size:24px;margin-bottom:12px;">📂</div>
-        <div style="font-size:14px;font-weight:800;color:var(--green);margin-bottom:12px;">Equipo Financiero</div>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;"></span>Validar comprobaciones</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;"></span>Conciliar movimientos</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;"></span>Monitorear cumplimiento de política</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;"></span>Descargar documentación fiscal</li>
-          <li style="font-size:12px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;"></span>Gestionar reembolsos</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Live dashboard strip -->
-    <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:18px;padding:28px 32px;" class="reveal">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
-        <span style="display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:rgba(74,188,160,0.1);border:1px solid rgba(74,188,160,0.25);color:var(--green);padding:5px 12px;border-radius:999px;">
-          <span class="lp-dot"></span> En vivo · Tiempo real
-        </span>
-        <span style="font-size:13px;font-weight:700;">Límites de gasto — Mayo 2025</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:14px;">
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:12px;font-weight:600;color:var(--text-secondary);">Ana Robles · RRHH</span><span style="font-size:12px;font-weight:700;"><span style="color:var(--gold);">$8,400</span><span style="color:var(--text-muted);"> / $15,000</span></span></div>
-          <div style="height:7px;background:var(--black-4);border-radius:999px;overflow:hidden;"><div style="height:100%;width:56%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width 1.5s cubic-bezier(0.22,1,0.36,1);"></div></div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:12px;font-weight:600;color:var(--text-secondary);">Equipo Marketing</span><span style="font-size:12px;font-weight:700;"><span style="color:var(--pacific);">$31,200</span><span style="color:var(--text-muted);"> / $60,000</span></span></div>
-          <div style="height:7px;background:var(--black-4);border-radius:999px;overflow:hidden;"><div style="height:100%;width:52%;border-radius:999px;background:linear-gradient(90deg,var(--pacific),#7ecfde);"></div></div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:12px;font-weight:600;color:var(--text-secondary);">Summit CDMX 2025</span><span style="font-size:12px;font-weight:700;"><span style="color:var(--amber);">$17,600</span><span style="color:var(--text-muted);"> / $20,000</span></span></div>
-          <div style="height:7px;background:var(--black-4);border-radius:999px;overflow:hidden;"><div style="height:100%;width:88%;border-radius:999px;background:linear-gradient(90deg,var(--amber),#e0b060);"></div></div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:12px;font-weight:600;color:var(--text-secondary);">Carlos Vega · Ventas</span><span style="font-size:12px;font-weight:700;"><span style="color:var(--green);">$2,100</span><span style="color:var(--text-muted);"> / $10,000</span></span></div>
-          <div style="height:7px;background:var(--black-4);border-radius:999px;overflow:hidden;"><div style="height:100%;width:21%;border-radius:999px;background:linear-gradient(90deg,var(--green),#7edad0);"></div></div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-
-<!-- ══════════════════════════════════
-     SECCIÓN — AUTOMATIZACIÓN CONTABLE
-══════════════════════════════════════ -->
-<section id="sec-contabilidad" class="section" style="background:var(--black-3);">
-  <div class="section-inner">
-
-    <div class="reveal">
-      <div class="section-tag">⑥ Automatización Contable</div>
-      <h2 class="section-h">Del gasto al cierre contable<br><em style="font-style:normal;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">en minutos.</em></h2>
-      <p class="section-sub">Reglas contables que se aplican solas. Mapeo GL, categorías e integraciones con tu ERP favorito — sin intervención manual.</p>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:start;" class="reveal">
-
-      <!-- Left: Flujo visual -->
-      <div style="display:flex;flex-direction:column;gap:12px;">
-
-
-
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:20px 22px;display:flex;align-items:flex-start;gap:14px;">
-          <div style="font-size:22px;flex-shrink:0;margin-top:2px;">🗺️</div>
-          <div>
-            <div style="font-size:14px;font-weight:700;margin-bottom:4px;">Mapeo de código GL</div>
-            <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">Asignación automática de códigos contables por tipo de transacción, departamento o proveedor.</div>
-          </div>
-        </div>
-
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:20px 22px;display:flex;align-items:flex-start;gap:14px;">
-          <div style="font-size:22px;flex-shrink:0;margin-top:2px;">🏷️</div>
-          <div>
-            <div style="font-size:14px;font-weight:700;margin-bottom:4px;">Categorización automática</div>
-            <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">Clasificación por tipo de gasto y centro de costo — sin etiquetado manual por el equipo.</div>
-          </div>
-        </div>
-
-        <!-- ERP integrations -->
-        <div style="background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:16px;padding:20px 22px;">
-          <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:14px;">🔗 Integraciones ERP</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-            <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:8px;padding:10px;text-align:center;font-size:11px;font-weight:700;color:var(--text-secondary);">⚡ NetSuite</div>
-            <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:8px;padding:10px;text-align:center;font-size:11px;font-weight:700;color:var(--text-secondary);">🔵 QuickBooks</div>
-            <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:8px;padding:10px;text-align:center;font-size:11px;font-weight:700;color:var(--text-secondary);">🔗 Jeeves API</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Right: Métodos + beneficios -->
-      <div style="display:flex;flex-direction:column;gap:14px;">
-
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:22px 24px;">
-          <div style="font-size:13px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:14px;">📋 Métodos de comprobación</div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="display:flex;align-items:center;gap:10px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;"></span><span style="font-size:13px;"><strong style="color:var(--text-primary);">Comprobantes digitales</strong><span style="color:var(--text-muted);"> — captura y clasifica gastos en segundos</span></span></div>
-            <div style="display:flex;align-items:center;gap:10px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;"></span><span style="font-size:13px;"><strong style="color:var(--text-primary);">Carga manual</strong><span style="color:var(--text-muted);"> — facturas PDF y XML directas</span></span></div>
-            <div style="display:flex;align-items:center;gap:10px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;"></span><span style="font-size:13px;"><strong style="color:var(--text-primary);">Tickets digitales</strong></span></div>
-            <div style="display:flex;align-items:center;gap:10px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;"></span><span style="font-size:13px;"><strong style="color:var(--text-primary);">Notas y comprobantes</strong><span style="color:var(--text-muted);"> — escritos por el usuario</span></span></div>
-          </div>
-        </div>
-
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:22px 24px;">
-          <div style="font-size:22px;margin-bottom:10px;">📊</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Reportes a tu medida</div>
-          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Exporta y filtra según tu modelo contable — sin trabajo manual, compatible con auditoría.</div>
-        </div>
-
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:22px 24px;">
-          <div style="font-size:22px;margin-bottom:10px;">🔄</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Sincronización automática</div>
-          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Tus transacciones se reflejan en tu ERP sin intervención manual. Cierre contable fluido.</div>
-        </div>
-
-        <div style="background:var(--black-2);border:1px solid var(--black-4);border-radius:16px;padding:22px 24px;">
-          <div style="font-size:22px;margin-bottom:10px;">🧾</div>
-          <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Comprobación de gastos</div>
-          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">Adjunta comprobantes y cierra el ciclo contable desde la plataforma — sin correos ni papeles.</div>
-        </div>
-
-      </div>
-    </div>
-
+<!-- DIAGNOSTICO -->
+<section>
+  <div class="wrap">
+    <h2><span class="tag">Diagnóstico</span>Hoy vs. Con Jeeves</h2>
+    <table>
+      <tr><th>Hoy</th><th>Con Jeeves</th></tr>
+      <tr><td>Pago a proveedores por transferencia bancaria o cheque tradicional</td><td>Pago con TC (hasta 37 días sin intereses) o dispersión directa a las cuentas de tus proveedores</td></tr>
+      <tr><td>4x1000 (GMF) sobre cada transferencia a proveedores</td><td>Sin cobro de 4x1000 en los pagos vía TC — no hay captación de dinero de terceros</td></tr>
+      <tr><td>Capital de trabajo inmovilizado para pagar de contado o a corto plazo</td><td>Hasta 37 días de apalancamiento en cada pago, con TC o con dispersión a cuentas</td></tr>
+      <tr><td>Conciliación manual de pagos y comprobantes por proveedor</td><td>Trazabilidad centralizada de pagos a proveedores en una sola plataforma, con cashback 1% los primeros 6 meses</td></tr>
+    </table>
   </div>
 </section>
 
-
-<!-- ══════════════════════════════════
-     SECCIÓN — CALCULADORA DINÁMICA
-══════════════════════════════════════ -->
-<section id="sec-calc" class="section" style="background:var(--black-3);">
-  <div class="section-inner">
-
-    <div class="reveal">
-      <div class="section-tag">② Calculadora de Inversión</div>
-      <h2 class="section-h">Calcula tu costo<br><em style="font-style:normal;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">exacto anual.</em></h2>
-      <p class="section-sub">Ajusta los parámetros y visualiza en tiempo real cuánto invierte tu empresa en la plataforma Jeeves — en USD y COP.</p>
+<!-- PROPUESTA ENTERPRISE -->
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <h2><span class="tag">Propuesta</span>Plan Enterprise para Constructora Contex</h2>
+    <p class="swap-line"><span class="old">Jeeves Pay · Proveedores — Hasta 37 días sin intereses</span> &nbsp;→&nbsp; <span class="new">Paga tus Proveedores</span></p>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3 style="font-size:14px;">💳 Con TC</h3>
+        <p style="font-size:13.5px;">Hasta 37 días sin intereses · Sin cobro de 4x1000 (GMF) · Cashback 1% durante los primeros 6 meses</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px;">🏦 Con dispersión a cuentas</h3>
+        <p style="font-size:13.5px;">Pagos directos a las cuentas bancarias de tus proveedores · Hasta 37 días de apalancamiento</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px;">Cobro</h3>
+        <p style="font-size:13.5px;">Plan Enterprise · $400 USD por usuario/mes · 10 usuarios incluidos · $4.000 USD/mes · $48.000 USD/año</p>
+      </div>
     </div>
-
-    <div class="calc-wrapper reveal">
-
-      <!-- Header with TDC -->
-      <div class="calc-header">
-        <div>
-          <div class="calc-title">💰 Calculadora de Inversión · Colombia</div>
-          <div class="calc-subtitle">Celdas en <span>dorado</span> = valores editables · Todo se recalcula al instante</div>
-        </div>
-        <div class="tdc-wrap">
-          <div style="display:flex;flex-direction:column;gap:3px;">
-            <div class="tdc-label">Tipo de cambio <span id="tdc-live-dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--text-muted);margin-left:4px;vertical-align:middle;" title="Actualizando COP/USD..."></span></div>
-            <a href="https://www.xe.com/es/currencyconverter/convert/?Amount=1&From=USD&To=COP" target="_blank" rel="noopener" style="font-size:9px;font-weight:700;letter-spacing:0.08em;color:var(--text-muted);text-decoration:none;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">Fuente: xe.com ↗</a>
-          </div>
-          <input id="tdc" class="tdc-input" type="number" value="4200" step="10" oninput="recalc()">
-          <div class="tdc-suffix">COP / USD</div>
-        </div>
-      </div>
-
-      <div class="calc-body">
-
-        <!-- LEFT: Inputs -->
-        <div class="calc-left">
-          <div class="calc-section-label">📋 Configura tu empresa · Precios en USD</div>
-
-          <!-- Costo plataforma anual -->
-          <div class="input-group">
-            <label class="input-label">Plan de la plataforma · Cliente Platinum (Plan anual)</label>
-            <div class="input-row">
-              <span class="input-prefix">USD</span>
-              <input id="costo_plataforma" class="calc-input" type="number" value="36000" min="0" step="1000" oninput="recalc()">
-              <span class="input-suffix">/año</span>
-            </div>
-            <div class="input-hint">Equivale a <span id="hint_plat_ano">USD 3,000</span> / mes · Incluye cashback</div>
-          </div>
-
-          <!-- Descuento -->
-          <div class="input-group" id="descuento-group" style="display:none;">
-            <label class="input-label">Descuento negociado (%)</label>
-            <div class="input-row">
-              <input id="descuento" class="calc-input" type="number" value="0" min="0" max="50" step="1" oninput="recalc()">
-              <span class="input-suffix">%</span>
-            </div>
-            <div class="input-hint">Descuento aplicado sobre precio de tier</div>
-          </div>
-
-          <!-- FotoFacturas toggle -->
-          <!-- Gasto tarjetas — Cashback (1) -->
-          <div style="border-top:1px solid var(--black-4);padding-top:22px;margin-top:4px;">
-            <div class="calc-section-label">💳 Gasto Corporativo Mensual · COP (Cashback)</div>
-
-            <div class="input-group">
-              <label class="input-label">Gasto mensual en tarjetas (COP)</label>
-              <div class="input-row">
-                <span class="input-prefix">$</span>
-                <input id="gasto_tarjetas" class="calc-input" type="number" value="1500000000" step="5000000" oninput="recalc()">
-                <span class="input-suffix">COP/mes</span>
-              </div>
-              <div class="input-hint" id="hint_gasto_anual" style="color:var(--text-muted);">Semestral: —</div>
-            </div>
-          </div>
-
-
-          <!-- Impuesto por transacciones en tarjeta (2.5) -->
-          <div style="border-top:1px solid var(--black-4);padding-top:22px;margin-top:4px;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-              <label class="toggle-switch">
-                <input type="checkbox" id="impuesto_check" onchange="toggleImpuesto()" checked>
-                <span class="toggle-slider"></span>
-              </label>
-              <span class="calc-section-label" style="margin-bottom:0;">💸 Gravamen 4×1000 — Impuesto por Transacciones</span>
-            </div>
-            <div style="font-size:11px;color:var(--text-muted);margin-bottom:16px;">Gravamen 4×1000: por cada $1,000 COP en transacciones se cobran $4 COP (= 0.4%). Se calcula automáticamente sobre el gasto mensual en tarjetas.</div>
-
-            <div id="impuesto-fields">
-              <div class="input-group">
-                <label class="input-label">Costo mensual Gravamen 4×1000 ($4 por cada $1,000 COP)</label>
-                <div class="input-row">
-                  <span class="input-prefix">$</span>
-                  <input id="impuesto_valor" class="calc-input" type="text" readonly
-                    style="background:rgba(201,168,76,0.03);border-color:rgba(201,168,76,0.15);color:var(--text-secondary);cursor:default;"
-                    value="0">
-                  <span class="input-suffix">COP/mes</span>
-                </div>
-                <div class="input-hint" style="color:var(--gold);">Automático: Gasto mensual ÷ 1,000 × $4 · no editable</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Cajero automático (3) -->
-          <div style="border-top:1px solid var(--black-4);padding-top:22px;margin-top:4px;">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-              <label class="toggle-switch">
-                <input type="checkbox" id="cajero_check" onchange="toggleCajero()">
-                <span class="toggle-slider"></span>
-              </label>
-              <span class="calc-section-label" style="margin-bottom:0;">🏧 Retiros en Cajero Automático</span>
-            </div>
-            <div style="font-size:11px;color:var(--text-muted);margin-bottom:16px;">Activa si el cliente usa cajeros — calcula el ahorro por comisiones eliminadas</div>
-
-            <div id="cajero-fields" style="display:none;">
-              <div class="input-group">
-                <label class="input-label">Gasto mensual en retiros cajero (COP)</label>
-                <div class="input-row">
-                  <span class="input-prefix">$</span>
-                  <input id="gasto_cajeros" class="calc-input blue" type="number" value="200000000" step="5000000" oninput="recalc()">
-                  <span class="input-suffix">COP/mes</span>
-                </div>
-              </div>
-
-              <div class="input-group">
-                <label class="input-label">Descuento de comisión por retiro en cajero (%)
-              <span class="info-tooltip">
-                <span class="info-icon">i</span>
-                <span class="tooltip-text">Comisión normal Jeeves 3% adicional a lo que cobran los cajeros.</span>
-              </span></label>
-                <div class="input-row">
-                  <input id="comision_caj" class="calc-input blue" type="number" value="0" step="0.1" min="0" max="10" oninput="recalc()">
-                  <span class="input-suffix">%</span>
-                </div>
-                <div class="input-hint">Jeeves elimina esta comisión → ahorro directo anual en USD</div>
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-
-        <!-- RIGHT: Results -->
-        <div class="calc-right">
-          <div class="calc-section-label">✅ Resumen de Inversión Anual</div>
-
-          <!-- Platform cost -->
-          <div class="result-row">
-            <div class="result-row-top">
-              <div>
-                <div class="result-name">Plataforma Jeeves</div>
-              </div>
-              <div class="result-amounts">
-                <div class="result-mxn" id="res_plat_usd" style="font-size:17px;">USD 0 / año</div>
-                <div class="result-usd" id="res_plat_cop">≈ COP 0 / año</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Total investmnet -->
-          <div class="result-total">
-            <div class="result-row-top">
-              <div style="font-size:13px;font-weight:700;">💳 Total Inversión Plataforma</div>
-              <div class="result-amounts">
-                <div class="result-mxn" id="res_total_usd" style="font-size:22px;">USD 0 / año</div>
-                <div class="result-usd" id="res_total_cop">≈ COP 0 / año</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Savings separator -->
-          <div style="border-top:1px solid var(--black-4);margin:20px 0;"></div>
-          <div class="calc-section-label">🎁 Beneficios & Ahorros Estimados</div>
-
-          <!-- Cashback -->
-          <div class="result-row" id="res_cb_row">
-            <div class="result-row-top">
-              <div>
-                <div class="result-name">Cashback 1% · 6 meses</div>
-                <div class="result-sub">Sobre gasto en tarjetas corporativas</div>
-              </div>
-              <div class="result-amounts">
-                <div class="result-mxn green" id="res_cb_usd">USD 0</div>
-                <div class="result-usd" id="res_cb_cop">≈ COP 0</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Impuesto savings row -->
-          <div class="result-row" id="res_imp_row" style="display:none;">
-            <div class="result-row-top">
-              <div>
-                <div class="result-name">Ahorro Gravamen 4×1000</div>
-                <div class="result-sub">$4 por cada $1,000 COP en transacciones · ahorro anual</div>
-              </div>
-              <div class="result-amounts">
-                <div class="result-mxn green" id="res_imp_usd">USD 0</div>
-                <div class="result-usd" id="res_imp_cop">≈ COP 0</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Cajero savings — oculto si comisión = 0 -->
-          <div class="result-row" id="res_caj_row" style="display:none;">
-            <div class="result-row-top">
-              <div>
-                <div class="result-name" id="res_caj_label">Ahorro comisiones cajero</div>
-                <div class="result-sub">Comisión eliminada × gasto anual en USD</div>
-              </div>
-              <div class="result-amounts">
-                <div class="result-mxn green" id="res_caj_usd">USD 0</div>
-                <div class="result-usd" id="res_caj_cop">≈ COP 0</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- NETO — Primer año -->
-          <div class="result-neto">
-            <div class="neto-label">🏆 Inversión Neta Anual (Costo − Ahorros) · Primer año</div>
-            <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-              <div>
-                <div class="neto-main" id="res_neto_usd2" style="color:var(--gold);">USD 0</div>
-                <div class="neto-sub">/ año · incluye plataforma − ahorros (incluye cashback)</div>
-              </div>
-              <div style="text-align:right;">
-                <div id="res_neto_cop" style="font-size:18px;font-weight:700;color:var(--text-secondary);"></div>
-                <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">COP equivalente</div>
-              </div>
-            </div>
-            <div class="roi-bar-wrap">
-              <div class="roi-bar-top">
-                <span class="roi-bar-label">Retorno sobre inversión</span>
-                <span class="roi-pct" id="res_roi">—</span>
-              </div>
-              <div class="roi-track"><div class="roi-fill" id="roi_fill"></div></div>
-            </div>
-          </div>
-
-          <!-- NETO — A partir del segundo año (sin cashback) -->
-          <div class="result-neto">
-            <div class="neto-label">🏆 Inversión Neta Anual (Costo − Ahorros) · A partir del segundo año</div>
-            <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-              <div>
-                <div class="neto-main" id="res_neto_usd2_y2" style="color:var(--gold);">USD 0</div>
-                <div class="neto-sub">/ año · incluye plataforma − ahorros (sin cashback)</div>
-              </div>
-              <div style="text-align:right;">
-                <div id="res_neto_cop_y2" style="font-size:18px;font-weight:700;color:var(--text-secondary);"></div>
-                <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">COP equivalente</div>
-              </div>
-            </div>
-            <div class="roi-bar-wrap">
-              <div class="roi-bar-top">
-                <span class="roi-bar-label">Retorno sobre inversión</span>
-                <span class="roi-pct" id="res_roi_y2">—</span>
-              </div>
-              <div class="roi-track"><div class="roi-fill" id="roi_fill_y2"></div></div>
-            </div>
-          </div>
-
-
-          <div style="margin-top:12px;font-size:10px;color:var(--text-muted);line-height:1.6;">
-            * Tipo de cambio COP/USD configurable. El cashback aplica 6 meses del año.
-          </div>
-          <div style="margin-top:8px;font-size:10px;color:var(--gold);font-weight:600;letter-spacing:0.04em;">💡 Precio más IVA · Tipo de cambio COP/USD de referencia</div>
-        </div>
-      </div>
-
-
-    </div><!-- /calc-wrapper -->
-
   </div>
 </section>
 
-
-
-<!-- ══ CTA ══ -->
-<section class="cta-section" id="sec-cta">
-  <div class="cta-inner">
-    <div class="eyebrow reveal">¿Listo para dar el siguiente paso?</div>
-    <h2 class="cta-h reveal">Contáctame.</h2>
-    <p class="cta-sub reveal">Estoy aquí para resolver todas tus dudas y continuar el proceso.</p>
-
-    <!-- Ejecutivo cards -->
-    <div id="exec-grid" class="reveal" style="display:flex;justify-content:center;gap:12px;margin-bottom:32px;text-align:left;">
-
-      <div class="exec-card selected" onclick="selectExec('Carlos Gomez','carlos.gomez@tryjeeves.com')" style="max-width:320px;width:100%;">
-        <div class="exec-avatar">CG</div>
-        <div class="exec-info">
-          <div class="exec-name">Carlos Gomez</div>
-          <div class="exec-role">Account Executive · Jeeves Colombia</div>
-        </div>
-        <div class="exec-check" style="background:var(--green);border-color:var(--green);color:#0A0A0C;box-shadow:0 0 8px rgba(74,188,160,0.4);">✓</div>
-      </div>
-
-    </div>
-
-    <!-- CTA Button -->
-    <button id="exec-btn" class="cta-btn reveal" onclick="openMail()" style="border:none;cursor:pointer;opacity:1;background:var(--gold);">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12v9H2z" stroke="#0A0A0C" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 4l6 5 6-5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Contactar a Carlos
-    </button>
-    <p class="cta-note reveal" id="exec-note">Se abrirá tu cliente de correo con un mensaje listo para Carlos Gomez · carlos.gomez@tryjeeves.com</p>
-  </div>
-</section>
-
-<style>
-  .exec-card {
-    display: flex; align-items: center; gap: 12px;
-    background: var(--black-2); border: 1px solid var(--black-4);
-    border-radius: 14px; padding: 14px 16px;
-    cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.2s;
-    position: relative;
-  }
-  .exec-card:hover { border-color: var(--gold-border); transform: translateY(-2px); }
-  .exec-card.selected { border-color: var(--gold-border); background: var(--gold-dim); }
-  .exec-avatar {
-    width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
-    background: linear-gradient(135deg, var(--gold), var(--gold-light));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 800; color: #0A0A0C; letter-spacing: 0.04em;
-  }
-  .exec-info { flex: 1; }
-  .exec-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
-  .exec-role { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .exec-check {
-    width: 20px; height: 20px; border-radius: 50%;
-    border: 1.5px solid var(--black-4); background: var(--black-3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 800; color: transparent;
-    transition: all 0.2s; flex-shrink: 0;
-  }
-  .exec-card.selected .exec-check {
-    background: var(--green); border-color: var(--green);
-    color: #0A0A0C; box-shadow: 0 0 8px rgba(74,188,160,0.4);
-  }
-  #exec-btn:not([disabled]) { cursor: pointer; opacity: 1; }
-  #exec-btn:not([disabled]):hover { background: var(--gold-light) !important; transform: scale(1.04); }
-</style>
+<div class="footer">
+  <div class="wrap">Preparado por Carlos Gomez · Senior Enterprise AE · carlos.gomez@tryjeeves.com · Jeeves — tryjeeves.com</div>
+</div>
 
 <script>
-  var selectedExecName  = 'Carlos Gomez';
-  var selectedExecEmail = 'carlos.gomez@tryjeeves.com';
+function fmtCOP(n){ const neg=n<0; const a=Math.round(Math.abs(n)).toLocaleString('es-CO'); return (neg?'-':'')+'$'+a+' COP'; }
+function fmtPct(n){ return (n>=0?'+':'') + n.toFixed(0) + '%'; }
 
-  function selectExec(name, email) {
-    selectedExecName  = name;
-    selectedExecEmail = email;
-    document.querySelectorAll('.exec-card').forEach(function(c) { c.classList.remove('selected'); });
-    event.currentTarget.classList.add('selected');
-    var btn = document.getElementById('exec-btn');
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    btn.style.cursor = 'pointer';
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12v9H2z" stroke="#0A0A0C" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 4l6 5 6-5" stroke="#0A0A0C" stroke-width="1.5" stroke-linecap="round"/></svg> Contactar a ' + name.split(' ')[0];
-    document.getElementById('exec-note').textContent = 'Se abrirá tu cliente de correo con un mensaje listo para ' + name + ' · ' + email;
-  }
+function recalc(){
+  const valorPlanUSD = parseFloat(document.getElementById('valorPlanUSD').value) || 0;
+  const gastoMensual = parseFloat(document.getElementById('gastoMensual').value) || 0;
+  const trm = parseFloat(document.getElementById('trm').value) || 0;
+  const chkFacturas = document.getElementById('chkFacturas').checked;
+  const salarioMensual = parseFloat(document.getElementById('salarioMensual').value) || 0;
+  const facturasMes = parseFloat(document.getElementById('facturasMes').value) || 0;
+  const minutosAhorrados = parseFloat(document.getElementById('minutosAhorrados').value) || 0;
+  const horasMes = parseFloat(document.getElementById('horasMes').value) || 0;
+  const chkRetiros = document.getElementById('chkRetiros').checked;
+  const gastoRetiros = parseFloat(document.getElementById('gastoRetiros').value) || 0;
+  const comisionRetiros = parseFloat(document.getElementById('comisionRetiros').value) || 0;
+  const chkSwift = document.getElementById('chkSwift').checked;
+  const girosMes = parseFloat(document.getElementById('girosMes').value) || 0;
+  const costoSwift = parseFloat(document.getElementById('costoSwift').value) || 0;
 
-  function openMail() {
-    var subject = encodeURIComponent('Propuesta Jeeves — Contex · Solicitud de información');
-    var body = encodeURIComponent(
-      'Hola,\n\n' +
-      'Revisé la propuesta comercial de Jeeves y me gustaría agendar una llamada para conocer más detalles sobre la propuesta que me enviaste.\n\n' +
-      'Quedo en espera de tu respuesta.\n\n' +
-      'Saludos,'
-    );
-    window.location.href = 'mailto:' + selectedExecEmail + '?subject=' + subject + '&body=' + body;
-  }
-</script>
+  document.getElementById('facturasAssumptions').style.display = chkFacturas ? 'grid' : 'none';
 
-<footer>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
-    <div style="display:flex;align-items:center;gap:8px;">
-      <svg width="22" height="22" viewBox="0 0 1590.21 1517.93" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;opacity:0.4">
-        <circle fill="#5A5755" cx="798.37" cy="759.62" r="659.19"/>
-        <path fill="#9A9690" d="M703.2,775.19h190.35l-27.93-210.47c68.69-6.56,137.38-13.12,206.08-19.68-46.52-49.28-93.05-98.56-139.57-147.85l-133.75,112.72-133.75-112.72c-46.52,49.28-93.05,98.56-139.57,147.85,68.69,6.56,137.38,13.12,206.08,19.68l-27.93,210.47Z"/>
-        <polygon fill="#9A9690" points="654.57 640.37 504.17 567.02 442.73 632.24 653.08 806.35 654.57 640.37"/>
-        <path fill="#9A9690" d="M775.18,907.85l-113.17-94.12-74.68,75.47c19.33,35.07,45.63,82.62,64.95,117.69,43.29-17.48,79.61-47.42,122.9-64.9v-34.14Z"/>
-        <path fill="#9A9690" d="M673.8,1045.36c5.31,19.79,10.63,39.59,15.94,59.38l26.95,17.3h163.36l26.95-17.3c5.31-19.79,10.63-39.59,15.94-59.38-41.52-9.7-83.05-19.4-124.57-29.09-41.52,9.7-83.05,19.4-124.57,29.09Z"/>
-        <polygon fill="#9A9690" points="943.66 806.35 1154.01 632.24 1092.57 567.02 942.17 640.37 943.66 806.35"/>
-        <path fill="#9A9690" d="M821.56,907.85v34.14c43.29,17.48,78.11,47.42,121.41,64.9,19.33-35.07,47.12-82.62,66.45-117.69l-74.68-75.47-113.17,94.12Z"/>
-      </svg>
-      <span>Jeeves &nbsp;·&nbsp; tryjeeves.com &nbsp;·&nbsp; Propuesta · Contex</span>
-    </div>
-    <div style="width:40px;height:1px;background:var(--black-4);"></div>
-    <div style="font-size:10px;letter-spacing:0.14em;color:var(--text-muted);opacity:0.6;">
-      Made by <span style="color:var(--gold);font-weight:700;opacity:1;">Jesús Irigoyen (Solutions Engineer)</span>
-    </div>
-  </div>
-</footer>
+  const volumenAnual = gastoMensual * 12;
+  const ahorroGMF = volumenAnual * 0.004;
+  const ahorroCashback = gastoMensual * 6 * 0.01;
+  const costoHora = horasMes ? salarioMensual / horasMes : 0;
+  const horasCapMes = facturasMes * (minutosAhorrados/60);
+  const ahorroFacturas = chkFacturas ? horasCapMes * costoHora * 12 : 0;
+  const retirosAplica = chkRetiros && comisionRetiros < 3;
+  const ahorroRetiros = retirosAplica ? (3 - comisionRetiros)/100 * gastoRetiros * 12 : 0;
+  const ahorroSwift = chkSwift ? girosMes * costoSwift * trm * 12 : 0;
 
-<script>
-// ──────────────────────────────────
-//  PRICING DATA
-// ──────────────────────────────────
-var TIERS = [
-  { max: 50,   mxn: 294.10, usd: 17.00 },
-  { max: 100,  mxn: 207.60, usd: 12.00 },
-  { max: 150,  mxn: 164.35, usd: 9.50  },
-  { max: Infinity, mxn: 138.40, usd: 8.00 }
-];
-var TIER_LABELS = ['Tier 1 · hasta 50 usuarios', 'Tier 2 · hasta 100 usuarios', 'Tier 3 · hasta 150 usuarios', 'Tier 4 · 200+ usuarios'];
-var PLATFORM_FEE_USD = 200;   // USD fijo mensual por plataforma
-var FF_PACKAGES = {
-  0:    { facturas: 0,    desc: 'Sin FotoFacturas adicionales' },
-  500:  { facturas: 500,  desc: 'Paquete 500 facturas extra' },
-  1000: { facturas: 1000, desc: 'Paquete 1,000 facturas extra' },
-  1500: { facturas: 1500, desc: 'Paquete 1,500 facturas extra' }
-};
-var FF_PRICE_MXN = 10; // $10 MXN por factura adicional
-var FF_BASE_FACTURAS = 200; // 200 fotofacturas incluidas en precio base (ocultas)
+  const costoAnualCOP = valorPlanUSD * trm;
+  const ahorroY1 = ahorroGMF + ahorroCashback + ahorroFacturas + ahorroRetiros + ahorroSwift;
+  const ahorroY2 = ahorroGMF + ahorroFacturas + ahorroRetiros + ahorroSwift;
 
-var selectedFF = 0;
-var customFF   = 0; // FotoFacturas ingresadas manualmente por el cliente
+  const gastoMinAno1 = costoAnualCOP - ahorroCashback - ahorroGMF;
+  const gastoMinAno2 = costoAnualCOP - ahorroGMF;
 
-// ──────────────────────────────────
-//  FORMATTERS
-// ──────────────────────────────────
-function fmxn(n) {
-  return '$' + n.toLocaleString('es-MX', {minimumFractionDigits:0, maximumFractionDigits:0});
-}
-function fusd(n) {
-  return 'USD ' + n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
-}
-function fmxnD(n) {  // with decimals
-  return '$' + n.toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
-}
-function fcop(n) {
-  return n.toLocaleString('es-CO', {minimumFractionDigits:0, maximumFractionDigits:0});
+  document.getElementById('gmfPreview').value = fmtCOP(ahorroGMF) + ' / año (0.4%)';
+  document.getElementById('gastoMinAno1').value = fmtCOP(gastoMinAno1);
+  document.getElementById('gastoMinAno2').value = fmtCOP(gastoMinAno2);
+  document.getElementById('outGMF').textContent = fmtCOP(ahorroGMF);
+  document.getElementById('outCashback').textContent = fmtCOP(ahorroCashback);
+  document.getElementById('outFacturas').textContent = chkFacturas ? fmtCOP(ahorroFacturas) : 'Desactivado';
+  document.getElementById('outFacturas').className = chkFacturas ? 'value' : 'value off';
+
+  const outRetiros = document.getElementById('outRetiros');
+  if(!chkRetiros){ outRetiros.textContent = 'Desactivado'; outRetiros.className='value off'; }
+  else if(comisionRetiros >= 3){ outRetiros.textContent = 'Sin ahorro (comisión ≥ 3%)'; outRetiros.className='value off'; }
+  else { outRetiros.textContent = fmtCOP(ahorroRetiros); outRetiros.className='value'; }
+
+  const outSwift = document.getElementById('outSwift');
+  if(!chkSwift){ outSwift.textContent = 'Desactivado'; outSwift.className='value off'; }
+  else { outSwift.textContent = fmtCOP(ahorroSwift); outSwift.className='value'; }
+
+  document.getElementById('outCosto').textContent = fmtCOP(costoAnualCOP);
+  document.getElementById('outAhorroY1').textContent = fmtCOP(ahorroY1);
+  document.getElementById('outAhorroY2').textContent = fmtCOP(ahorroY2);
+
+  const netoY1 = ahorroY1 - costoAnualCOP;
+  const netoY2 = ahorroY2 - costoAnualCOP;
+  document.getElementById('outNetoY1sub').textContent = 'Menos costo de plataforma (' + fmtCOP(costoAnualCOP) + ') = ' + fmtCOP(netoY1) + ' neto';
+  document.getElementById('outNetoY2sub').textContent = 'Menos costo de plataforma (' + fmtCOP(costoAnualCOP) + ') = ' + fmtCOP(netoY2) + ' neto';
+
+  const roe1 = costoAnualCOP > 0 ? (ahorroY1 - costoAnualCOP) / costoAnualCOP * 100 : 0;
+  const roe2 = costoAnualCOP > 0 ? (ahorroY2 - costoAnualCOP) / costoAnualCOP * 100 : 0;
+  document.getElementById('outROE1').textContent = fmtPct(roe1);
+  document.getElementById('outROE2').textContent = fmtPct(roe2);
+  document.getElementById('outROE1sub').textContent = 'Ahorro ' + fmtCOP(ahorroY1) + ' vs. costo ' + fmtCOP(costoAnualCOP);
+  document.getElementById('outROE2sub').textContent = 'Ahorro ' + fmtCOP(ahorroY2) + ' vs. costo ' + fmtCOP(costoAnualCOP);
 }
 
-// ──────────────────────────────────
-//  SLIDER SYNC
-// ──────────────────────────────────
-function syncSlider() { /* removed */ }
-function syncInput() { /* removed */ }
-
-// ──────────────────────────────────
-//  TIER DETECTION
-// ──────────────────────────────────
-function getTier(n) {
-  for (var i = 0; i < TIERS.length; i++) {
-    if (n <= TIERS[i].max) return i;
-  }
-  return TIERS.length - 1;
-}
-
-function highlightTier(idx) {
-  var ids = ['tc1','tc2','tc3','tc4'];
-  ids.forEach(function(id, i) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    if (i === idx) {
-      el.classList.add('active-tier');
-    } else {
-      el.classList.remove('active-tier');
-    }
-  });
-}
-
-// ──────────────────────────────────
-//  FF SELECTION
-// ──────────────────────────────────
-function setFF(paq) {
-  selectedFF = paq;       // numeric: 0, 500, 1000, 1500
-  customFF   = 0;         // clear custom when package selected
-  ['ff_none','ff_500','ff_1000','ff_1500','ff_2000'].forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.classList.remove('selected');
-  });
-  var map = {'0':'ff_none', '500':'ff_500', '1000':'ff_1000', '1500':'ff_1500', '2000':'ff_2000'};
-  var target = document.getElementById(map[String(paq)]);
-  if (target) target.classList.add('selected');
-  recalc();
-}
-function selectFF(paq) { setFF(paq); }
-
-function clearCustomFF() {
-  var inp = document.getElementById('ff_custom');
-  if (inp) { inp.value = ''; }
-  var pr = document.getElementById('ff_custom_price');
-  if (pr) pr.textContent = '';
-  customFF = 0;
-}
-
-function applyCustomFF() {
-  var inp = document.getElementById('ff_custom');
-  var val = Math.max(0, parseInt(inp.value) || 0);
-  customFF   = val;
-  selectedFF = -1; // sentinel: bypass package lookup, use customFF
-  // Deselect all package buttons
-  ['ff_none','ff_500','ff_1000','ff_1500','ff_2000'].forEach(function(id) {
-    var el = document.getElementById(id); if (el) el.classList.remove('selected');
-  });
-  // Show price preview next to field
-  var tdc    = parseFloat(document.getElementById('tdc').value) || 17.20;
-  var mxnMes = val * FF_PRICE_MXN;
-  var pr = document.getElementById('ff_custom_price');
-  if (pr) pr.textContent = val > 0 ? fmxn(mxnMes) + '/mes' : '';
-  recalc();
-}
-
-// ──────────────────────────────────
-//  MAIN RECALC
-// ──────────────────────────────────
-function recalc() {
-  var tdc   = parseFloat(document.getElementById('tdc').value) || 4200; // COP per USD
-  var platAnoUSDInput = parseFloat(document.getElementById('costo_plataforma').value) || 36000; // USD/año
-  var platMesUSD = platAnoUSDInput / 12; // USD/mes (equivalente)
-  var gastoMesCOP = parseFloat(document.getElementById('gasto_tarjetas').value) || 0; // COP
-  var gastoMesUSD = gastoMesCOP / tdc; // convertir a USD
-  var impuestoActivo = document.getElementById('impuesto_check').checked;
-  var cajeroActivo = document.getElementById('cajero_check').checked;
-  var cajMesCOP  = cajeroActivo ? (parseFloat(document.getElementById('gasto_cajeros').value) || 0) : 0; // COP
-  var cajMesUSD  = cajMesCOP / tdc; // convertir a USD
-  var comCaj   = cajeroActivo ? (parseFloat(document.getElementById('comision_caj').value) || 0) : 0;
-
-  // Tier 4 siempre activo
-  highlightTier(3);
-
-  // Update tier card display
-  var t4el = document.getElementById('t4_usd');
-  if (t4el) t4el.textContent = 'USD 8.00';
-
-  // Plataforma total — USD
-  var platAnoUSD = platAnoUSDInput;
-  var platAnoCOP = platAnoUSD * tdc;
-
-  // Total investment
-  var totalAnoUSD = platAnoUSD;
-  var totalAnoCOP = totalAnoUSD * tdc;
-  var totalMesUSD = platMesUSD;
-
-  // Hint mensual (equivalente al plan anual)
-  var hintEl = document.getElementById('hint_plat_ano');
-  if (hintEl) hintEl.textContent = fusd(platMesUSD); // USD 36,000 / 12
-
-  // ── Savings ──
-  // Cashback 1% × 6 months (gasto in USD)
-  var cbUSD = gastoMesUSD * 0.01 * 6;
-  var cbCOP = cbUSD * tdc;
-
-  // Cliente Platinum siempre incluye cashback
-
-  // Cajero savings (gasto in USD already)
-  var cajAnoUSD = cajMesUSD * (comCaj/100) * 12;
-  var cajAnoCOP = cajAnoUSD * tdc;
-
-
-  // Impuesto 4x1000 savings
-  var impAnoUSD = impuestoActivo ? (gastoMesUSD * 0.004 * 12) : 0;
-  var impAnoCOP = impAnoUSD * tdc;
-
-  // Neto — Primer año (incluye cashback)
-  var totalSavingsUSD = cbUSD + cajAnoUSD + impAnoUSD;
-  var netoAnoUSD = totalAnoUSD - totalSavingsUSD;
-  var netoAnoCOP = netoAnoUSD * tdc;
-
-  // ROI — Primer año
-  var roi = totalAnoUSD > 0 ? (totalSavingsUSD / totalAnoUSD) * 100 : 0;
-
-  // Neto — A partir del segundo año (sin cashback, el cashback solo aplica el primer año)
-  var totalSavingsY2USD = cajAnoUSD + impAnoUSD;
-  var netoY2USD = totalAnoUSD - totalSavingsY2USD;
-  var netoY2COP = netoY2USD * tdc;
-
-  // ROI — A partir del segundo año
-  var roiY2 = totalAnoUSD > 0 ? (totalSavingsY2USD / totalAnoUSD) * 100 : 0;
-
-  // ── Update impuesto_valor display ──
-  var impMesCOP = gastoMesCOP * 0.004; // 0.4% = 4x1000
-  var impMesField = document.getElementById('impuesto_valor');
-  if (impMesField) impMesField.value = impMesCOP > 0 ? fcop(impMesCOP) : '0';
-
-  // ── Update gasto anual hint ──
-  document.getElementById('hint_gasto_anual').textContent =
-    gastoMesCOP > 0 ? 'Semestral: COP ' + fcop(gastoMesCOP * 6) : '';
-
-  // ── Update results ──
-
-  setText('res_plat_usd', fusd(platAnoUSD) + ' / año');
-  setText('res_plat_cop', '≈ COP ' + fcop(platAnoCOP) + ' / año');
-
-  setText('res_total_usd', fusd(totalAnoUSD) + ' / año');
-  setText('res_total_cop', '≈ COP ' + fcop(totalAnoCOP) + ' / año');
-
-  // Cashback row display
-  if (cbUSD > 0) {
-    show('res_cb_row');
-    setText('res_cb_usd', fusd(cbUSD));
-    setText('res_cb_cop', '≈ COP ' + fcop(cbCOP));
-  } else {
-    hide('res_cb_row');
-  }
-
-  // Cajero
-  if (cajeroActivo && cajAnoUSD > 0) {
-    show('res_caj_row');
-    document.getElementById('res_caj_label').textContent = 'Ahorro comisiones cajero (' + comCaj + '%)';
-    setText('res_caj_usd', fusd(cajAnoUSD));
-    setText('res_caj_cop', '≈ COP ' + fcop(cajAnoCOP));
-  } else {
-    hide('res_caj_row');
-  }
-
-
-  // Impuesto
-  if (impuestoActivo && impAnoUSD > 0) {
-    show('res_imp_row');
-    setText('res_imp_usd', fusd(impAnoUSD));
-    setText('res_imp_cop', '≈ COP ' + fcop(impAnoCOP));
-  } else {
-    hide('res_imp_row');
-  }
-
-  // Neto — Primer año
-  var netoEl = document.getElementById('res_neto_usd2');
-  if (netoEl) {
-    netoEl.textContent = fusd(netoAnoUSD);
-    netoEl.style.color = netoAnoUSD <= 0 ? 'var(--green)' : 'var(--gold)';
-  }
-  setText('res_neto_cop', '≈ COP ' + fcop(netoAnoCOP));
-  setText('res_neto_usd', '≈ COP ' + fcop(netoAnoCOP));
-
-  // ROI — Primer año
-  var roiEl = document.getElementById('res_roi');
-  if (totalAnoUSD > 0 && totalSavingsUSD > 0) {
-    roiEl.textContent = roi.toFixed(0) + '% de retorno';
-    roiEl.style.color = roi >= 100 ? 'var(--green)' : 'var(--gold)';
-    document.getElementById('roi_fill').style.width = Math.min(roi, 100) + '%';
-  } else {
-    roiEl.textContent = totalSavingsUSD > 0 ? '∞ ROI' : '—';
-    document.getElementById('roi_fill').style.width = '0%';
-  }
-
-  // Neto — A partir del segundo año (sin cashback)
-  var netoEl2 = document.getElementById('res_neto_usd2_y2');
-  if (netoEl2) {
-    netoEl2.textContent = fusd(netoY2USD);
-    netoEl2.style.color = netoY2USD <= 0 ? 'var(--green)' : 'var(--gold)';
-  }
-  setText('res_neto_cop_y2', '≈ COP ' + fcop(netoY2COP));
-
-  // ROI — A partir del segundo año
-  var roiEl2 = document.getElementById('res_roi_y2');
-  if (roiEl2) {
-    if (totalAnoUSD > 0 && totalSavingsY2USD > 0) {
-      roiEl2.textContent = roiY2.toFixed(0) + '% de retorno';
-      roiEl2.style.color = roiY2 >= 100 ? 'var(--green)' : 'var(--gold)';
-      document.getElementById('roi_fill_y2').style.width = Math.min(roiY2, 100) + '%';
-    } else {
-      roiEl2.textContent = totalSavingsY2USD > 0 ? '∞ ROI' : '—';
-      document.getElementById('roi_fill_y2').style.width = '0%';
-    }
-  }
-
-  // Breakdown table (compatible layer)
-  setText('bt_users_mes', fusd(platMesUSD));
-  setText('bt_users_ano', fusd(platAnoUSD));
-  setText('bt_users_usd', fusd(platAnoUSD));
-  setText('bt_plat_mes', fusd(platMesUSD));
-  setText('bt_plat_ano', fusd(platAnoUSD));
-  setText('bt_plat_usd', fusd(platAnoUSD));
-  setText('bt_cb_mes', fusd(cbUSD / 6));
-  setText('bt_cb_ano', '−' + fusd(cbUSD));
-  setText('bt_cb_usd', '−' + fusd(cbUSD));
-  setText('bt_neto_mes', fusd(netoAnoUSD / 12));
-  setText('bt_neto_ano', fusd(netoAnoUSD));
-  setText('bt_neto_usd', fusd(netoAnoUSD));
-} // end recalc
-
-function toggleCajero() {
-  var checked = document.getElementById('cajero_check').checked;
-  document.getElementById('cajero-fields').style.display = checked ? '' : 'none';
-  setTimeout(recalc, 0);
-}
-
-function toggleImpuesto() {
-  var checked = document.getElementById('impuesto_check').checked;
-  document.getElementById('impuesto-fields').style.display = checked ? '' : 'none';
-  setTimeout(recalc, 0);
-}
-
-function setText(id, val) {
-  var el = document.getElementById(id);
-  if (el) el.textContent = val;
-}
-function show(id) {
-  var el = document.getElementById(id);
-  if (el) el.style.display = '';
-}
-function hide(id) {
-  var el = document.getElementById(id);
-  if (el) el.style.display = 'none';
-}
-
-// ── Scroll reveals ──
-var reveals = document.querySelectorAll('.reveal');
-var obs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e, i) {
-    if (e.isIntersecting) {
-      setTimeout(function() { e.target.classList.add('visible'); }, i * 70);
-      obs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
-reveals.forEach(function(el) { obs.observe(el); });
-
-// ── Init ──
+document.querySelectorAll('.calc input:not([disabled])').forEach(el => el.addEventListener('input', recalc));
 recalc();
-
-// ── Tipo de cambio COP/USD en tiempo real — fuente: xe.com ──
-(function fetchTDC() {
-  var dot = document.getElementById('tdc-live-dot');
-
-  function applyRate(rate, source) {
-    var rounded = Math.round(rate);
-    document.getElementById('tdc').value = rounded;
-    if (dot) {
-      dot.style.background = 'var(--green)';
-      dot.style.boxShadow = '0 0 6px rgba(74,188,160,0.6)';
-      dot.style.animation = 'pulse 1.5s infinite';
-      dot.title = 'Tipo de cambio en vivo · ' + rounded + ' COP/USD · ' + source;
-    }
-    recalc();
-  }
-
-  function markError() {
-    if (dot) {
-      dot.style.background = 'var(--amber)';
-      dot.title = 'Sin conexión — valor manual';
-    }
-  }
-
-  // 1️⃣ Intentar con exchangerate-api (gratuito, sin key, CORS ok)
-  fetch('https://open.er-api.com/v6/latest/USD')
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      var rate = data && data.rates && data.rates.COP;
-      if (rate) { applyRate(rate, 'open.er-api.com'); return; }
-      throw new Error('no rate');
-    })
-    .catch(function() {
-      // 2️⃣ Fallback: frankfurter.app (Bundesbank data, CORS ok)
-      fetch('https://api.frankfurter.app/latest?from=USD&to=COP')
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          var rate = data && data.rates && data.rates.COP;
-          if (rate) { applyRate(rate, 'frankfurter.app'); return; }
-          throw new Error('no rate');
-        })
-        .catch(function() {
-          // 3️⃣ Fallback: fawazahmed0 (CDN, CORS ok)
-          fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json')
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-              var rate = data && data.usd && data.usd.cop;
-              if (rate) { applyRate(rate, 'currency-api'); return; }
-              throw new Error('no rate');
-            })
-            .catch(markError);
-        });
-    });
-})();
-// Pre-select first exec card
-window.addEventListener('load', function() {
-  var card = document.querySelector('.exec-card');
-  if (card) { card.classList.add('selected'); }
-});
 </script>
+
 </body>
 </html>
